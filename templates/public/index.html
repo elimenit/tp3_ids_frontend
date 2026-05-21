@@ -1,9 +1,21 @@
 {% extends 'base.html' %}
-{% block title %} Restaurant {% endblock %}
+{% block title %} Restaurante {% endblock %}
+
+{% block head %}
+<!-- CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+
+<!-- JS -->
+<script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% endblock %}
 
 {% block body %}
-    <h1>Restaurant activo</h1>
-    {% for elemento in range(10) %}
-        <li>{{ elemento }}</li>
-    {% endfor %}
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

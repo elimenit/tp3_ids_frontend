@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Restaurante para que vengas a comer con familia, pareja o amigos.">
+    <meta name="keywords" content="Restaurante, comida, menú, contacto, inicio">
     <title>{% block title %} {% endblock %}</title>
     {% block head %} {% endblock %}
 </head>
 <body>
+    {% block header %}
+    {% endblock %}
     {% block body %}
     {% endblock %}
     {% block footer %}
-    <p>Footer</p>
     {% endblock %}
 </body>
 </html>
