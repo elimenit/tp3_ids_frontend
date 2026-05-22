@@ -1,0 +1,52 @@
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group .upload {
+    padding: 10px 12px;
+    border: 1px solid #dddddd8c;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    margin: 0;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: rgb(255, 123, 0);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.form-group .upload {
+    padding: 0;
+}
+
+.form-group .upload .actionable {
+    padding: 0.5rem;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    width: 100%;
+}
