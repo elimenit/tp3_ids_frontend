@@ -13,8 +13,19 @@
     height: 100%;
 }
 
-.x-btn:hover {
-    background-color: rgba(240, 248, 255, 0.747);
+.config-btn {
+    margin: 0 0.5rem;
+    background-color: rgba(240, 248, 255, 0);
+    color: aliceblue;
+    border-radius: 5px;
+    padding: 0.3rem;
+    transition: background-color 0.3s ease, color 0.3s ease, border-radius 0.3s ease; 
+}
+
+.x-btn:hover, .config-btn:hover,
+.config-btn:focus {
+    background-color: rgba(240, 248, 255, 0.5);
+    border-radius: 16px;
     color: black;
     cursor: pointer;
 }
