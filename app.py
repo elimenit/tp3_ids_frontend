@@ -2,6 +2,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo' 
+
 # Blueprints
 from routers.login import public_login_bp
 app.register_blueprint(public_login_bp)

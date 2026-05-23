@@ -6,7 +6,8 @@
 
 .form-group label {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    color: aliceblue;
 }
 
 .form-group input,
@@ -26,14 +27,6 @@
     outline: none;
     border-color: rgb(255, 123, 0);
     box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
-}
-
-.form-group .upload {
-    padding: 0;
-}
-
-.form-group .upload .actionable {
-    padding: 0.5rem;
 }
 
 .form-group textarea {

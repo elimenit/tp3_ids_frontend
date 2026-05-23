@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Restaurante para que vengas a comer con familia, pareja o amigos.">
     <meta name="keywords" content="Restaurante, comida, menú, contacto, inicio">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/blocks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/btns/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/keyframes.css') }}">
+
+    <!-- JS -->
+    <script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
     <title>{% block title %} {% endblock %}</title>
     {% block head %} {% endblock %}
 </head>

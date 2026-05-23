@@ -1,0 +1,20 @@
+.x-btn {
+    background-color: rgba(240, 248, 255, 0);
+    color: aliceblue;
+    border-radius: 5px;
+    padding: 0.3rem;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.x-btn a {
+    stroke: inherit;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.x-btn:hover {
+    background-color: rgba(240, 248, 255, 0.747);
+    color: black;
+    cursor: pointer;
+}
