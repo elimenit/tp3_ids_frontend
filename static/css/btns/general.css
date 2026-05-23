@@ -23,9 +23,8 @@
 }
 
 .x-btn:hover, .config-btn:hover,
-.config-btn:focus {
+.config-btn:focus, .block-footer button:hover {
     background-color: rgba(240, 248, 255, 0.5);
-    border-radius: 16px;
     color: black;
     cursor: pointer;
 }

@@ -5,23 +5,28 @@ public_login_bp = Blueprint('public_login', __name__)
 
 @public_login_bp.route("/signup", methods=['GET', 'POST'])
 def signup():
+    title = None
+    description = None
+
     if request.method == 'POST':
-        # 1. Atrapas los datos del formulario de Jinja
-        datos_formulario = {
-            "username": request.form.get('username'),
+        data_form = {
+            "name": request.form.get('name'),
             "email": request.form.get('email'),
             "password": request.form.get('password')
         }
         
         url_backend = "http://localhost:5000/public/users/register"
-        respuesta_api = requests.post(url_backend, json=datos_formulario)
+        response = requests.post(url_backend, json=data_form)
         
-        if respuesta_api.status_code == 201:
+        if response.status_code == 201:
             return redirect(url_for('main'))
         else:
-            flash("Error al registrar el usuario en el sistema")
+            data = response.json()
+            print(data)  # Para depuración
+            message = data.get('mensaje', 'Error desconocido al registrarse.')
+            description = data.get('description', 'Por favor, intenta nuevamente.')
             
-    return render_template("public/signup.html")
+    return render_template("public/signup.html", title=message, description=description)
 
 @public_login_bp.route("/login")
 def login():
