@@ -5,7 +5,7 @@ public_login_bp = Blueprint('public_login', __name__)
 
 @public_login_bp.route("/signup", methods=['GET', 'POST'])
 def signup():
-    title = None
+    message = None
     description = None
 
     if request.method == 'POST':

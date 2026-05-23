@@ -28,3 +28,8 @@
     color: black;
     cursor: pointer;
 }
+
+.swal2-confirm:focus {
+    outline: none;
+    box-shadow: none;
+}
