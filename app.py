@@ -1,5 +1,7 @@
+from utils.request import make_request
+
 from werkzeug.exceptions import HTTPException
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, url_for
 
 app = Flask(__name__)
 
@@ -21,8 +23,32 @@ def handle_exception(e):
 
 @app.route("/", methods=['GET'])
 def main():
-    user_id = request.args.get('user_id') # Para el logging
-    return render_template('public/index.html', user_id=user_id)
+    user_id = request.args.get('user_id', type=int)
+    user = None
+    # Cargo inicialmente los modales
+    if user_id:
+        response = make_request(f"http://localhost:5000/public/users/{user_id}", "GET")
+        if response.status_code == 200:
+            user = response.json()
+
+    # Busca mensajes de éxito en la URL
+    success = request.args.get('success')
+    title = request.args.get('title')
+    description = request.args.get('description')
+
+    return render_template('public/index.html', 
+        user_id=user_id, 
+        user=user, 
+        modal=True,
+        form_heading="Actualiza tu información",
+        show_username=True,
+        show_confirm_password=True,
+        submit_label="Actualizar",
+        form_action=url_for('public_login.update_user', user_id=user_id),
+        success=success,
+        title=title,
+        description=description
+        )
 
 if __name__ == '__main__':
     app.run("localhost", 10000, debug=True)
