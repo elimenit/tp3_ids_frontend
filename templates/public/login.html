@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/signup.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/forms.css') }}">
+  <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/blocks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/btns/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/keyframes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/panels.css') }}">
+
+    <!-- JS -->
+    <script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/panels.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block body %}
+  <img src="{{ url_for('static', filename='img/blurry-img.JPG') }}" class="background-image">
+  <div class="fixed-block">
+    <div class="block signup">
+        <div class="block-header">
+            <h2>Iniciar Session</h2>
+            <a href="{{ url_for('main') }}" class="x-btn-link">
+              <svg class="x-btn" xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 6 6 18"/>
+                <path d="m6 6 12 12"/>
+              </svg>
+            </a>
+        </div>
+        <form action="{{ url_for('public_login.login') }}" method="post">
+          <div class="block-content">
+            <div class="form-group">
+              <label for="email">Correo electrónico:</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Contraseña:</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+          </div>
+          <div class="block-footer">
+            <button type="submit">Enviar</button>
+          </div>
+        </form>
+    </div>
+  </div>
+{% endblock %}

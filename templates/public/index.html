@@ -2,6 +2,17 @@
 {% block title %} Restaurante {% endblock %}
 
 {% block head %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/blocks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/btns/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/keyframes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/panels.css') }}">
+
+    <!-- JS -->
+    <script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/panels.js') }}"></script>
 {% endblock %}
 
 {% block header %}
