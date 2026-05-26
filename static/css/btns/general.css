@@ -33,3 +33,16 @@
     outline: none;
     box-shadow: none;
 }
+
+.delete-btn {
+    background-color: transparent;
+    color: #ff4d4d;
+    border-radius: 5px;
+    padding: 0.3rem 0.6rem;
+    transition: background-color 0.3s ease, color 0.3s ease; 
+}
+
+.delete-btn:hover {
+    background-color: #ff4d4d;
+    color: white;
+}

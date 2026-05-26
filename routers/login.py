@@ -23,12 +23,16 @@ def signup():
         "password": request.form.get('password')
     }
 
-    url_backend = "http://localhost:5000/public/users/register"
+    url_backend = "http://localhost:5000/public/users/"
     response = make_request(url_backend, "POST", data_form)
 
     if response.status_code == 201:
         user_id = response.json().get('id')
-        return redirect(url_for('main', user_id=user_id))
+        return redirect(url_for('main', 
+            user_id=user_id, 
+            success=True, 
+            title="Registro exitoso", 
+            description="Tu cuenta ha sido creada exitosamente."))
     else:
         data = response.json()
         return render_template("public/signup.html",
