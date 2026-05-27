@@ -7,14 +7,16 @@
             <h2>{{ form_heading }}</h2>
             {% if not modal %}
             <a href="{{ url_for('main') }}" class="x-btn-link">
-                <svg class="x-btn" xmlns="http://w3.org" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <svg class="x-btn" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 6 6 18"/>
                     <path d="m6 6 12 12"/>
                 </svg>
             </a>
             {% endif %}
         </div>
-        <form action="{{ form_action }}" method="POST">
+        
+        <!-- FORMULARIO PRINCIPAL (CREAR / EDITAR) -->
+        <form id="form-principal" action="{{ form_action }}" method="POST">
             <div class="block-content">
                 {% if show_username %}
                 <div class="form-group">
@@ -24,7 +26,9 @@
                 {% endif %}
                 <div class="form-group">
                     <label for="email">Correo electrónico:</label>
-                    <input type="email" id="email" name="email" {% if user %}value="{{ user.email }}" {% endif %}required>
+                    <input type="email" id="email" name="email" 
+                    {% if user %}value="{{ user.email }}"{% endif %} 
+                    {{ 'disabled' if modal else 'required' }}>                
                 </div>
                 <div class="form-group">
                     <label for="password">Contraseña:</label>
@@ -37,15 +41,22 @@
                 </div>
                 {% endif %}
             </div>
+            
             <div class="block-footer">
                 {% if modal %}
-                <button class="delete-btn">
+                <button class="delete-btn" data-formid="eliminarUser" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2-icon lucide-trash-2"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                 </button>
                 <button class="submit-btn cancel-btn" type="button" id="closeAdminUser">Cancelar</button>
                 {% endif %}
+                
                 <button class="submit-btn" type="submit">{{ submit_label }}</button>
             </div>
         </form>
     </div>
 </div>
+
+{% if modal and user %}
+<form id="eliminarUser" action="{{ url_for('public_login.delete_user', user_id=user.id) }}" method="POST">
+</form>
+{% endif %}

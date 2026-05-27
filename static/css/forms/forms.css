@@ -1,3 +1,9 @@
+input:disabled {
+    background-color: #f0f0f015;
+    color: #999999;
+    cursor: not-allowed;
+}
+
 .form-group {
     display: flex;
     flex-direction: column;

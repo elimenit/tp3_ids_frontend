@@ -105,6 +105,30 @@ def update_user():
         e.status_code = response.status_code
         raise e
 
+@public_login_bp.route("/delete", methods=['POST'])
+def delete_user():
+    user_id = request.args.get('user_id', type=int)
+    if not user_id:
+        e = Exception("No se ha iniciado sesión.")
+        e.error_title = "Error de solicitud"
+        e.status_code = 400
+        raise e
+
+    url_backend = f"http://localhost:5000/public/users/{user_id}"
+    response = make_request(url_backend, "DELETE", data=request.form)
+
+    if response.status_code == 204:
+        return redirect(url_for('main', 
+            user_id=user_id, 
+            success=True, 
+            title="Perfil eliminado", 
+            description="Tu perfil ha sido eliminado exitosamente."))
+    else:
+        data = response.json()
+        e = Exception(data.get('description', 'Error desconocido.'))
+        e.error_title = data.get('message', 'Error al eliminar.')
+        e.status_code = response.status_code
+        raise e
 
 @public_login_bp.route("/logout", methods=['GET', 'POST'])
 def logout():

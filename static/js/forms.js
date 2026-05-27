@@ -18,4 +18,25 @@ const checkPasswordMatch = () => {
     });
 };
 
+const alertElimination = () => {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAlert(
+                'Confirmación', 
+                '¿Estás seguro de que deseas eliminar este usuario?', 
+                'warning').then((result) => {   
+                if (result.isConfirmed) {
+                const form = document.getElementById(button.dataset.formid);
+                    if (form) { 
+                        form.submit();
+                    }
+                }
+            });
+        });
+    });
+};
+
 checkPasswordMatch();
+alertElimination();
