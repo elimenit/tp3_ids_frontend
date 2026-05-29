@@ -1,4 +1,5 @@
 from utils.request import make_request
+from utils.error import make_error
 
 from flask import render_template, request, redirect, url_for, Blueprint
 
@@ -84,15 +85,12 @@ def login():
 def update_user():
     user_id = request.args.get('user_id', type=int)
     if not user_id:
-        e = Exception("No se ha iniciado sesión.")
-        e.error_title = "Error de solicitud"
-        e.status_code = 400
-        raise e
+        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
 
     url_backend = f"http://localhost:5000/public/users/{user_id}"
     response = make_request(url_backend, "PUT", data=request.form)
 
-    if response.status_code == 204:
+    if response.status_code in [204, 200]:
         return redirect(url_for('main', 
             user_id=user_id, 
             success=True, 
@@ -100,35 +98,33 @@ def update_user():
             description="Tu perfil ha sido actualizado exitosamente."))
     else:
         data = response.json()
-        e = Exception(data.get('description', 'Error desconocido.'))
-        e.error_title = data.get('message', 'Error al actualizar.')
-        e.status_code = response.status_code
-        raise e
+        return make_error(
+            data.get('message', 'Error al actualizar.'),
+            description=data.get('description', 'Error desconocido.'),
+            status_code=response.status_code,
+        )
 
 @public_login_bp.route("/delete", methods=['POST'])
 def delete_user():
     user_id = request.args.get('user_id', type=int)
     if not user_id:
-        e = Exception("No se ha iniciado sesión.")
-        e.error_title = "Error de solicitud"
-        e.status_code = 400
-        raise e
+        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
 
     url_backend = f"http://localhost:5000/public/users/{user_id}"
     response = make_request(url_backend, "DELETE", data=request.form)
 
-    if response.status_code == 204:
+    if response.status_code in [204, 200]:
         return redirect(url_for('main', 
-            user_id=user_id, 
             success=True, 
             title="Perfil eliminado", 
             description="Tu perfil ha sido eliminado exitosamente."))
     else:
-        data = response.json()
-        e = Exception(data.get('description', 'Error desconocido.'))
-        e.error_title = data.get('message', 'Error al eliminar.')
-        e.status_code = response.status_code
-        raise e
+        data = response.json()  
+        return make_error(
+            data.get('message', 'Error al eliminar.'),
+            description=data.get('description', 'Error desconocido.'),
+            status_code=response.status_code,
+        )
 
 @public_login_bp.route("/logout", methods=['GET', 'POST'])
 def logout():

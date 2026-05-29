@@ -1,3 +1,4 @@
+from utils.error import make_error
 from utils.request import make_request
 
 from werkzeug.exceptions import HTTPException
@@ -30,7 +31,10 @@ def main():
         response = make_request(f"http://localhost:5000/public/users/{user_id}", "GET")
         if response.status_code == 200:
             user = response.json()
-
+        else:
+            data = response.json()
+            return make_error(data["message"], description=data["description"], status_code=response.status_code)
+        
     # Busca mensajes de éxito en la URL
     success = request.args.get('success')
     title = request.args.get('title')
