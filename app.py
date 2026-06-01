@@ -1,5 +1,5 @@
 from utils.error import make_error
-from utils.request import make_request
+from utils.helpers import make_request
 
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request, url_for

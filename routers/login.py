@@ -1,12 +1,17 @@
-from utils.request import make_request
+from utils.helpers import make_request, make_cookie_response
 from utils.error import make_error
 
 from flask import render_template, request, redirect, url_for, Blueprint
 
 public_login_bp = Blueprint('public_login', __name__)
 
+API_URL = "http://localhost:5000" 
+URL_PUBLIC_USERS = f"{API_URL}/public/users/"
+URL_LOGIN_PUBLIC = f"{API_URL}/public/login/"
+
 @public_login_bp.route("/signup", methods=['GET', 'POST'])
 def signup():
+    # Renderiza el formulario de registro
     if request.method == 'GET':
         return render_template("public/signup.html",
             form_title="Registrarse",
@@ -18,22 +23,27 @@ def signup():
             back_img=True
         )
 
+    # Función principal para manejar el registro
     data_form = {
         "name": request.form.get('name'),
         "email": request.form.get('email'),
         "password": request.form.get('password')
     }
 
-    url_backend = "http://localhost:5000/public/users/"
-    response = make_request(url_backend, "POST", data_form)
+    response = make_request(URL_PUBLIC_USERS, "POST", data_form)
 
     if response.status_code == 201:
-        user_id = response.json().get('id')
-        return redirect(url_for('main', 
-            user_id=user_id, 
+        token = response.json().get('token')
+        
+        res = redirect(url_for(
+            'main', 
             success=True, 
             title="Registro exitoso", 
-            description="Tu cuenta ha sido creada exitosamente."))
+            description="Tu cuenta ha sido creada exitosamente."
+        ))
+        make_cookie_response(res, token) # type: ignore
+        return res
+    
     else:
         data = response.json()
         return render_template("public/signup.html",
@@ -61,12 +71,19 @@ def login():
             back_img=True
         )
     
-    url_backend = "http://localhost:5000/public/login/"
-    response = make_request(url_backend, "POST", request.form)
+    response = make_request(URL_LOGIN_PUBLIC, "POST", request.form)
 
     if response.status_code == 200:
-        user_id = response.json().get('id')
-        return redirect(url_for('main', user_id=user_id))
+        token = response.json().get('token')
+        
+        res = redirect(url_for(
+            'main', 
+            success=True, 
+            title="Inicio de sesión exitoso", 
+            description="Tu cuenta ha sido iniciada exitosamente."
+        ))
+        make_cookie_response(res, token) # type: ignore
+        return res
     else:
         data = response.json()
         return render_template("public/login.html",
@@ -87,12 +104,10 @@ def update_user():
     if not user_id:
         return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
 
-    url_backend = f"http://localhost:5000/public/users/{user_id}"
-    response = make_request(url_backend, "PUT", data=request.form)
+    response = make_request(f"{URL_PUBLIC_USERS}{user_id}", "PUT", data=request.form)
 
     if response.status_code in [204, 200]:
         return redirect(url_for('main', 
-            user_id=user_id, 
             success=True, 
             title="Perfil actualizado", 
             description="Tu perfil ha sido actualizado exitosamente."))
@@ -110,8 +125,7 @@ def delete_user():
     if not user_id:
         return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
 
-    url_backend = f"http://localhost:5000/public/users/{user_id}"
-    response = make_request(url_backend, "DELETE", data=request.form)
+    response = make_request(f"{URL_PUBLIC_USERS}{user_id}", "DELETE", data=request.form)
 
     if response.status_code in [204, 200]:
         return redirect(url_for('main', 
@@ -128,4 +142,6 @@ def delete_user():
 
 @public_login_bp.route("/logout", methods=['GET', 'POST'])
 def logout():
-    return redirect(url_for('main'))
+    res =  redirect(url_for('main'))
+    res.delete_cookie("session_token")
+    return res
