@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+<<<<<<< HEAD
 {% block head %}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/signup.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/forms.css') }}">
@@ -60,4 +61,10 @@
         </form>
     </div>
   </div>
+=======
+{% block title %}{{ form_title }}{% endblock %}
+
+{% block body %}
+{% include 'public/auth_form.html' %}
+>>>>>>> origin/users
 {% endblock %}

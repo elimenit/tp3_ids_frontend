@@ -16,13 +16,18 @@
 {% endblock %}
 
 {% block header %}
-{% include 'public/nav.html' %}
+    {% include 'public/nav.html' %}
 {% endblock %}
 
 {% block body %}
-<!-- Para el blurr y oscurecimiento de la página -->
-<div class="overlay"></div>
-{% include 'public/settings.html' %}
+    <!-- Para el blurr y oscurecimiento de la página -->
+    <div class="overlay"></div>
+    <!-- Panel para actualizar usuario -->
+    {% if user %}    
+    {% include 'public/auth_form.html' %} 
+    {% endif %}
+
+    {% include 'public/settings.html' %}
 {% endblock %}
 
 {% block footer %}

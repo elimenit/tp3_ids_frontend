@@ -50,7 +50,9 @@
 }
 
 /* Efecto hover */
-.navbar a:not(.logo-link)::after, .panel-list a::after {
+.navbar a:not(.logo-link)::after, 
+.panel-list a::after, 
+.panel-list button::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -63,18 +65,22 @@
     transition: transform 0.3s ease;
 }
 
-.navbar a:not(.logo-link):hover::after, .panel-list a:hover::after {
+.navbar a:not(.logo-link):hover::after, 
+.panel-list a:hover::after, 
+.panel-list button:hover::after {
     background-color: rgba(124, 124, 124, 0.226);
     transform: scaleX(1);
 }
 
 /* Efecto hover para los panels */
-.panel-list a::after {
+.panel-list a::after, 
+.panel-list button::after {
     background: 0;
     transform-origin: right;
 }
 
-.panel-list a:hover::after {
+.panel-list a:hover::after, 
+.panel-list button:hover::after {
     background: 0;
     transform-origin: left;
 }

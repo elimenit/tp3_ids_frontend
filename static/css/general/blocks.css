@@ -34,6 +34,7 @@
 }
 
 .block-footer {
+    position: relative;
     padding: 20px;
     border-top: 2px solid rgba(124, 124, 124, 0.123);
     display: flex;
@@ -41,18 +42,30 @@
     justify-content: flex-end;
 }
 
-.block-footer button {
+.submit-btn {
     padding: 10px 20px;
-    border: none;
+    border: 2px solid rgba(124, 124, 124, 0.123);
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-    transition: all 0.2s;
+    background-color: rgba(124, 124, 0, 0);
+    color: white;
+    transition: all 0.3s;
 }
 
 .fixed-block {
+    z-index: 1001;
     position: fixed;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, calc(-50% + 50px));
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.fixed-block.open {
+    opacity: 1;
+    visibility: visible;
     transform: translate(-50%, -50%);
 }

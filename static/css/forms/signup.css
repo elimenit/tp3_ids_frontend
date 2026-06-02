@@ -1,4 +1,6 @@
 .block.signup {
     min-width: 400px;
+    max-height: 85vh;
     animation: deslizarArriba 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    overflow-y: auto;
 }

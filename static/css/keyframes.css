@@ -1,10 +1,10 @@
 @keyframes deslizarArriba {
     from {
         opacity: 0;
-        transform: translateY(50px); /* Empieza 50px más abajo */
+        transform: translateY(50px);
     }
     to {
         opacity: 1;
-        transform: translateY(0);    /* Termina en su posición original */
+        transform: translateY(0);
     }
 }
