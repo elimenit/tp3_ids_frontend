@@ -4,11 +4,12 @@
     </div>
     <div class="block-content">
         <ul class="panel-list">
-            {% if user_id %}
+            {% if user %}
             <li><button id="adminUser">Administrar usuario</button></li>
             {% endif %}
             <li><a href="#">Opción 2</a></li>
-            {% if user_id %}
+            <li><a href="#">Opción 3</a></li>
+            {% if user %}
             <li><a href="{{ url_for('public_login.logout') }}">Cerrar sesión</a></li>
             {% endif %}
         </ul>

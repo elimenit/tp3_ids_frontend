@@ -1,4 +1,4 @@
-from utils.helpers import make_request, make_cookie_response
+from utils.helpers import make_request, make_cookie_response, get_bearer_headers
 from utils.error import make_error
 
 from flask import render_template, request, redirect, url_for, Blueprint
@@ -6,7 +6,8 @@ from flask import render_template, request, redirect, url_for, Blueprint
 public_login_bp = Blueprint('public_login', __name__)
 
 API_URL = "http://localhost:5000" 
-URL_PUBLIC_USERS = f"{API_URL}/public/users/"
+URL_PUBLIC_USERS_BASE = f"{API_URL}/public/users/" 
+URL_PUBLIC_USERS_ME = f"{API_URL}/public/users/me" 
 URL_LOGIN_PUBLIC = f"{API_URL}/public/login/"
 
 @public_login_bp.route("/signup", methods=['GET', 'POST'])
@@ -20,7 +21,6 @@ def signup():
             show_username=True,
             show_confirm_password=True,
             submit_label="Registrarse",
-            back_img=True
         )
 
     # Función principal para manejar el registro
@@ -30,7 +30,7 @@ def signup():
         "password": request.form.get('password')
     }
 
-    response = make_request(URL_PUBLIC_USERS, "POST", data_form)
+    response = make_request(URL_PUBLIC_USERS_BASE, "POST", data_form)
 
     if response.status_code == 201:
         token = response.json().get('token')
@@ -55,7 +55,6 @@ def signup():
             submit_label="Registrarse",
             title=data.get('message', 'Error desconocido al registrarse.'),
             description=data.get('description', 'Por favor, intenta nuevamente.'),
-            back_img=True
         )
 
 @public_login_bp.route("/login", methods=['GET', 'POST'])
@@ -68,7 +67,6 @@ def login():
             show_username=False,
             show_confirm_password=False,
             submit_label="Iniciar sesión",
-            back_img=True
         )
     
     response = make_request(URL_LOGIN_PUBLIC, "POST", request.form)
@@ -95,16 +93,24 @@ def login():
             submit_label="Iniciar sesión",
             title=data.get('message', 'Error desconocido al iniciar sesión.'),
             description=data.get('description', 'Por favor, intenta nuevamente.'),
-            back_img=True
         )
 
 @public_login_bp.route("/update", methods=['POST'])
 def update_user():
-    user_id = request.args.get('user_id', type=int)
-    if not user_id:
-        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
+    token = request.cookies.get('session_token')
+    if not token:
+        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=401)
 
-    response = make_request(f"{URL_PUBLIC_USERS}{user_id}", "PUT", data=request.form)
+    data_form = {
+        "name": request.form.get('name'),
+        "password": request.form.get('password')
+    }
+
+    if data_form["name"] and data_form["password"]:
+        response = make_request(URL_PUBLIC_USERS_ME, "PUT", data=data_form, token=token)
+        
+    elif data_form["name"] or data_form["password"]:
+        response = make_request(URL_PUBLIC_USERS_ME, "PATCH", data=data_form, token=token)
 
     if response.status_code in [204, 200]:
         return redirect(url_for('main', 
@@ -121,17 +127,19 @@ def update_user():
 
 @public_login_bp.route("/delete", methods=['POST'])
 def delete_user():
-    user_id = request.args.get('user_id', type=int)
-    if not user_id:
-        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=400)
+    token = request.cookies.get('session_token')
+    if not token:
+        return make_error("Error de solicitud", description="No se ha iniciado sesión.", status_code=401)
 
-    response = make_request(f"{URL_PUBLIC_USERS}{user_id}", "DELETE", data=request.form)
+    response = make_request(URL_PUBLIC_USERS_ME, "DELETE", token=token)
 
     if response.status_code in [204, 200]:
-        return redirect(url_for('main', 
+        res = redirect(url_for('main', 
             success=True, 
             title="Perfil eliminado", 
             description="Tu perfil ha sido eliminado exitosamente."))
+        res.delete_cookie("session_token")
+        return res
     else:
         data = response.json()  
         return make_error(
@@ -142,6 +150,6 @@ def delete_user():
 
 @public_login_bp.route("/logout", methods=['GET', 'POST'])
 def logout():
-    res =  redirect(url_for('main'))
+    res = redirect(url_for('main'))
     res.delete_cookie("session_token")
     return res

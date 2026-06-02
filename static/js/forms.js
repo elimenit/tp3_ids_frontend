@@ -1,6 +1,8 @@
 import { showAlert } from './alerts.js';
+
 /*
-Se asegura de que las contraseñas coincidan antes de enviar el formulario de registro. Si las contraseñas no coinciden, se muestra una alerta y se evita que el formulario se envíe.
+Se asegura de que las contraseñas coincidan antes de enviar el formulario de registro. 
+Si las contraseñas no coinciden, se muestra una alerta y se evita que el formulario se envíe.
 */
 const checkPasswordMatch = () => {
     const forms = document.querySelectorAll('form');
@@ -18,6 +20,10 @@ const checkPasswordMatch = () => {
     });
 };
 
+/*
+Agrega un evento a los botones de eliminación que muestra una alerta de confirmación antes de enviar el formulario de eliminación. 
+Si el usuario confirma, se envía el formulario; de lo contrario, no se hace nada.
+*/
 const alertElimination = () => {
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {

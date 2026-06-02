@@ -11,12 +11,19 @@ const toggleModals = (panels, overlay, overlayModify = false) => {
     panels.forEach(panel => {
         const btnId = panel.dataset.openby
         const btnElement = document.getElementById(btnId);
+        const cancelBtn = panel.querySelector('.cancel-btn');
         if (btnElement) {
             btnElement.addEventListener('click', () => {
                 panel.classList.toggle('open');
                 if (overlayModify) overlay.classList.toggle('active');
-            });  
-            overlay.addEventListener('click', () => {
+            });
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', () => {
+                panel.classList.remove('open');
+                if (overlayModify) overlay.classList.remove('active');
+            });
+        }
+        overlay.addEventListener('click', () => {
                 panel.classList.remove('open');
                 overlay.classList.remove('active');
             });}
