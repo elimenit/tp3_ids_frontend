@@ -10,7 +10,7 @@ URL_PUBLIC_USERS_BASE = f"{API_URL}/public/users/"
 URL_PUBLIC_USERS_ME = f"{API_URL}/public/users/me" 
 URL_LOGIN_PUBLIC = f"{API_URL}/public/login/"
 
-@public_login_bp.route("/signup", methods=['GET', 'POST'])
+@public_bp_login.route("/signup", methods=['GET', 'POST'])
 def signup():
     # Renderiza el formulario de registro
     if request.method == 'GET':
@@ -57,7 +57,7 @@ def signup():
             description=data.get('description', 'Por favor, intenta nuevamente.'),
         )
 
-@public_login_bp.route("/login", methods=['GET', 'POST'])
+@public_bp_login.route("/login", methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
         return render_template("public/login.html",
@@ -95,7 +95,7 @@ def login():
             description=data.get('description', 'Por favor, intenta nuevamente.'),
         )
 
-@public_login_bp.route("/update", methods=['POST'])
+@public_bp_login.route("/update", methods=['POST'])
 def update_user():
     token = request.cookies.get('session_token')
     if not token:
@@ -125,7 +125,7 @@ def update_user():
             status_code=response.status_code,
         )
 
-@public_login_bp.route("/delete", methods=['POST'])
+@public_bp_login.route("/delete", methods=['POST'])
 def delete_user():
     token = request.cookies.get('session_token')
     if not token:
@@ -148,7 +148,7 @@ def delete_user():
             status_code=response.status_code,
         )
 
-@public_login_bp.route("/logout", methods=['GET', 'POST'])
+@public_bp_login.route("/logout", methods=['GET', 'POST'])
 def logout():
     res = redirect(url_for('main'))
     res.delete_cookie("session_token")

@@ -5,7 +5,7 @@ public_bp_deliveries = Blueprint('public_deliveries', __name__)
 
 @public_bp_deliveries.route(rule="/<int:user_id>", methods=["GET", 'POST'])
 def show(user_id: int):
-    headers = request.headers # Fijo
+    headers = request.headers 
     print(user_id)
     if request.method == 'POST':
         pass

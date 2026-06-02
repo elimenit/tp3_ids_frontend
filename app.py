@@ -2,15 +2,24 @@ from utils.helpers import make_request, get_bearer_headers
 
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request, url_for
+# Blueprints
+from routers.login import public_bp_login
+from routers.signup import public_bp_signup
+from routers.public.deliveries import public_bp_deliveries
+# Variables de entorno
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
+app = Flask(__name__)
 
 app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo' 
-API_URL = "http://localhost:5000" 
+API_URL = os.getenv('URL_API')  
 URL_PUBLIC_USERS = f"{API_URL}/public/users/me"
 
 # Register Blueprints
-app.register_blueprint(public_bp_signup)
-app.register_blueprint(public_bp_login)
+app.register_blueprint(public_bp_signup, url_prefix="/signup")
+app.register_blueprint(public_bp_login, url_prefix="/login")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
 
 # Errors
