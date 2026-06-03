@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Restaurante para que vengas a comer con familia, pareja o amigos.">
     <meta name="keywords" content="Restaurante, comida, menú, contacto, inicio">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/nav.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/blocks.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/btns/general.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/keyframes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/general/panels.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/signup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/forms.css') }}">
+
+    <!-- Librería para mensajes de error -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- JS -->
+    <script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/panels.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/forms.js') }}"></script>
+
     <title>{% block title %} {% endblock %}</title>
     {% block head %} {% endblock %}
 </head>
@@ -15,5 +34,24 @@
     {% endblock %}
     {% block footer %}
     {% endblock %}
+    <!-- Mensajes de error -->
+    {% if title %}
+        <script>
+            Swal.fire({
+                title: "{{ title }}",
+                text: "{{ description }}",
+                icon: '{{ "success" if success == "True" else "error" }}',
+                confirmButtonText: 'Aceptar',
+
+                confirmButtonColor: '#ffffff71',
+                background: 'rgb(43, 43, 43)',      
+                color: '#ffffff',              
+                customClass: {
+                    confirmButton: 'submit-btn',
+                    popup: 'block'
+                } 
+        });
+        </script>
+    {% endif %}
 </body>
 </html>
