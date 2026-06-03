@@ -2,6 +2,14 @@
 {% block title %} Restaurante {% endblock %}
 
 {% block head %}
+<!-- CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+<!-- JS -->
+<script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -17,7 +25,98 @@
     {% endif %}
 
     {% include 'public/settings.html' %}
+<header class="main-banner">
+    <div class="banner-logo">
+        <img src="{{ url_for('static', filename='img/nav-logo.png') }}" alt="Logo del restaurante">
+    </div>
+</header>
+
+<section class="menu">
+    <div class="menu-text">
+        <h2>Nuestros Platos</h2>
+        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, eveniet!</p>
+
+        <div class="menu-button">
+            <button class="btn">Ver Menú</button>
+        </div>
+    </div>
+
+    <div class="menu-img">
+        <img src="{{ url_for('static', filename='img/menu_img1.jpg') }}" alt="Imagenes de platos del restaurante">
+    </div>
+</section>
+
+<section class="info">   
+    <div class="info-img">
+        <img src="{{ url_for('static', filename='img/menu_img1.jpg') }}" alt="Imagenes del restaurante">
+    </div>
+    
+    <div class="info-text">
+        <h2>Acerca del restaurante</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iusto praesentium dolor in nesciunt, nisi deserunt amet ipsam eos eius totam delectus cum at tempore minima impedit fuga maiores qui!</p>
+    </div>
+</section>
+
+<section class="reviews-and-contact">
+    
+    <div class="reviews-container">
+        <h2>Opiniones de Clientes</h2>
+        
+        <div class="carousel">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-comment">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus placeat quam atque eveniet sapiente ex.</p>
+                <span class="review-author">- Juan Pérez</span>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, deleniti.</p>
+                <span class="review-author">- María L.</span>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-stars">★★★★☆</div>
+                <p class="review-comment">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur provident quidem perferendis doloribus veniam laudantium sequi aut enim iusto nobis.</p>
+                <span class="review-author">- Carlos G.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="map-and-info-container">
+        <h2>Ubicación y Contacto</h2>
+        
+        <div class="map-wrapper">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016887889417!2d-58.381557!3d-34.6037389!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjUiUyA1OMKwMjInNTMuNiJX!5e0!3m2!1ses!2sar!4v1625000000000!5m2!1ses!2sar" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+        </div>
+        
+        <div class="contact-details">
+            <p><strong>Dirección:</strong> Av. Principal 1234, Ciudad de Buenos Aires</p>
+            <p><strong>Teléfono:</strong> +54 11 4321-8765</p>
+            <p><strong>Horarios:</strong> Mar a Dom: 12:00 a 16:00 y 20:00 a 00:00</p>
+        </div>
+    </div>
+
+</section>
+
+<section>
+    <div class="reservation">
+        <h2>Reserva tu Mesa</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, dolorem?</p>
+        <button class="reservation-button">Reservar Ahora</button>
+
+    </div>
+</section>
+
 {% endblock %}
 
 {% block footer %}
+{% include 'public/footer.html' %}
 {% endblock %}
