@@ -3,13 +3,7 @@
 
 {% block head %}
 <!-- CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
-
-<!-- JS -->
-<script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -21,7 +15,7 @@
     <div class="overlay"></div>
     <!-- Panel para actualizar usuario -->
     {% if user %}    
-    {% include 'public/auth_form.html' %} 
+    {% include 'public/auth/auth_form.html' %} 
     {% endif %}
 
     {% include 'public/settings.html' %}

@@ -15,7 +15,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/general/panels.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/signup.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/forms/forms.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+    
     <!-- Librería para mensajes de error -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -35,23 +36,30 @@
     {% block footer %}
     {% endblock %}
     <!-- Mensajes de error -->
-    {% if title %}
-        <script>
-            Swal.fire({
-                title: "{{ title }}",
-                text: "{{ description }}",
-                icon: '{{ "success" if success == "True" else "error" }}',
-                confirmButtonText: 'Aceptar',
-
-                confirmButtonColor: '#ffffff71',
-                background: 'rgb(43, 43, 43)',      
-                color: '#ffffff',              
-                customClass: {
-                    confirmButton: 'submit-btn',
-                    popup: 'block'
-                } 
-        });
-        </script>
-    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <script>
+                {% for category, info in messages %}
+                    // 1. Jinja escribe el texto JSON de forma segura y JS lo decodifica como objeto real
+                    var msg = JSON.parse({{ info | tojson | safe }});
+                    
+                    // 2. Ahora sí puedes acceder a las propiedades con la notación de punto
+                    Swal.fire({
+                        title: msg.title,
+                        text: msg.text,
+                        icon: "{{ category | default('error') | safe }}",
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#ffffff71',
+                        background: 'rgb(43, 43, 43)',
+                        color: '#ffffff',
+                        customClass: {
+                            confirmButton: 'submit-btn',
+                            popup: 'block'
+                        }
+                    });
+                {% endfor %}
+            </script>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>

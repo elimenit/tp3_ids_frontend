@@ -57,6 +57,6 @@
 </div>
 
 {% if modal and user %}
-<form id="eliminarUser" action="{{ url_for('public_login.delete_user') }}" method="POST">
+<form id="eliminarUser" action="{{ url_for('public_users.delete_user') }}" method="POST">
 </form>
 {% endif %}
