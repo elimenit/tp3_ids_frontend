@@ -1,6 +1,9 @@
+from turtle import title
+
 import requests
 from typing import Literal
-from flask import Response, request
+from flask import Response, flash
+import json
 
 def make_request(
         url: str, 
@@ -20,20 +23,21 @@ def make_request(
     ### Returns:
         - Objeto Response de requests
     """
+    final_headers = dict(headers)
     if token:
-        headers = get_bearer_headers(token)
+        final_headers.update(get_bearer_headers(token))
 
     try:
         if method == "POST":
-            response = requests.post(url, json=data, headers=headers)
+            response = requests.post(url, json=data, headers=final_headers)
         elif method == "PUT":
-            response = requests.put(url, json=data, headers=headers)
+            response = requests.put(url, json=data, headers=final_headers)
         elif method == "PATCH":
-            response = requests.patch(url, json=data, headers=headers)
+            response = requests.patch(url, json=data, headers=final_headers)
         elif method == "DELETE":
-            response = requests.delete(url, headers=headers)
+            response = requests.delete(url, headers=final_headers)
         else:
-            response = requests.get(url, headers=headers)
+            response = requests.get(url, headers=final_headers)
     except requests.exceptions.ConnectionError:
         raise Exception("No se pudo conectar con el servidor") 
 
@@ -58,3 +62,17 @@ def make_cookie_response(res: Response, token: str):
         secure=False,
         max_age=3600
     )
+
+def flash_message(
+        title: str, 
+        description: str = '', 
+        category: Literal['error', 'success', 'warning', 'info'] = 'error'
+    ) -> None:
+    """
+    Flashea un mensaje con un formato específico para ser mostrado con SweetAlert en el frontend.
+    El mensaje se formatea como un JSON con las claves "title" y "text", y se categoriza con la categoría dada (por defecto, 'error').
+    """
+    flash(json.dumps({
+        "title": title,
+        "text": description
+    }), category)

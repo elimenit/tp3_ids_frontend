@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} Mis Entregas {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/deliveries.css') }}">
+{% endblock %}
+
+{% block body %}
+<main class="deliveries-container">
+    <h1>Mis Pedidos</h1>
+    
+    <div class="deliveries-grid" id="deliveries-list">
+        {% if deliveries %}
+            {% for delivery in deliveries %}
+            <div class="delivery-card" data-id="{{ delivery.id }}">
+                <div class="delivery-info">
+                    <h3>Pedido #{{ delivery.id }}</h3>
+                    <p><strong>Dirección:</strong> {{ delivery.addres }}</p>
+                    <p><strong>Fecha:</strong> {{ delivery.datetime }}</p>
+                </div>
+                <button class="btn-detail" onclick="viewDetail('{{ delivery.id }}')">Ver detalle</button>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No tienes entregas registradas.</p>
+        {% endif %}
+    </div>
+</main>
+
+<script src="{{ url_for('static', filename='js/deliveries.js') }}"></script>
+{% endblock %}
