@@ -42,17 +42,6 @@
     justify-content: flex-end;
 }
 
-.submit-btn {
-    padding: 10px 20px;
-    border: 2px solid rgba(124, 124, 124, 0.123);
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    background-color: rgba(124, 124, 0, 0);
-    color: white;
-    transition: all 0.3s;
-}
-
 .fixed-block {
     z-index: 1001;
     position: fixed;
@@ -68,4 +57,14 @@
     opacity: 1;
     visibility: visible;
     transform: translate(-50%, -50%);
+}
+
+.page-content {
+    padding: 20px;
+    margin-top: 4.5rem; /* Altura de la navbar */
+    height: calc(100vh - 4.5rem - 40px); /* Altura total menos navbar y padding */
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    gap: 20px;
 }

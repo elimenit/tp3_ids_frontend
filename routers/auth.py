@@ -7,16 +7,18 @@ public_bp_auth = Blueprint('public_auth', __name__)
 
 @public_bp_auth.route("/signup", methods=['GET', 'POST'])
 def signup():
-    if request.method == 'GET':
-        return render_template("public/auth/signup.html",
+    template = render_template("public/auth/signup.html",
             form_title="Registrarse",
             form_heading="¡Bienvenido!",
             form_action=url_for('public_auth.signup'),
             show_username=True,
             show_confirm_password=True,
             submit_label="Registrarse",
-        )
+    )
 
+    if request.method == 'GET':
+        return template
+    
     data_form = {
         "name": request.form.get('name'),
         "email": request.form.get('email'),
@@ -37,26 +39,21 @@ def signup():
             data.get('message', 'Error desconocido al registrarse.'),
             data.get('description', '')
         )
-        return render_template("public/auth/signup.html",
-            form_title="Registrarse",
-            form_heading="¡Bienvenido!",
-            form_action=url_for('public_auth.signup'),
-            show_username=True,
-            show_confirm_password=True,
-            submit_label="Registrarse",
-        )
-
+        return template
+    
 @public_bp_auth.route("/login", methods=['GET', 'POST'])
 def login():
-    if request.method == 'GET':
-        return render_template("public/auth/login.html",
+    template = render_template("public/auth/login.html",
             form_title="Iniciar sesión",
             form_heading="¡Hola de nuevo!",
             form_action=url_for('public_auth.login'),
             show_username=False,
             show_confirm_password=False,
             submit_label="Iniciar sesión",
-        )
+    )
+    
+    if request.method == 'GET':
+        return template
     
     response = make_request(URL_LOGIN_PUBLIC, "POST", request.form)
 
@@ -72,14 +69,7 @@ def login():
             data.get('message', 'Error desconocido al iniciar sesión.'),
             data.get('description', '')
         )
-        return render_template("public/auth/login.html",
-            form_title="Iniciar sesión",
-            form_heading="¡Hola de nuevo!",
-            form_action=url_for('public_auth.login'),
-            show_username=False,
-            show_confirm_password=False,
-            submit_label="Iniciar sesión",
-        )
+        return template
     
 @public_bp_auth.route("/logout", methods=['GET', 'POST'])
 def logout():

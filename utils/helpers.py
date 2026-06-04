@@ -1,5 +1,3 @@
-from turtle import title
-
 import requests
 from typing import Literal
 from flask import Response, flash

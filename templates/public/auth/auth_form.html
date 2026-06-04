@@ -1,6 +1,17 @@
-<!--
-Formulario de autenticación
--->
+{#
+  auth_form.html — Formulario reutilizable de usuario
+
+  Uso público (login / registro): pasar form_heading con el título deseado.
+  Uso modal (actualizar usuario): no pasar form_heading, se activa por JS (data-openby="adminUser").
+
+  Parámetros opcionales:
+    form_heading          str   Título. Su ausencia activa el modo modal de actualización.
+    form_action           str   URL del form. Default: public_users.update_user
+    submit_label          str   Texto del botón. Default: "Actualizar usuario"
+    show_username         bool  Muestra campo nombre.
+    show_confirm_password bool  Muestra campo confirmar contraseña.
+    user                  obj   Precarga email y nombre.
+#}
 
 {% if form_heading %}
 <img src="{{ url_for('static', filename='img/blurry-img.JPG') }}" class="background-image">

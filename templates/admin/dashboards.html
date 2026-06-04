@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block head %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sections/dashboard.css') }}">
+{% endblock %}
+
+{% block header %}
+    {% include 'public/nav.html' %}
+{% endblock %}
+
+{% block body %}
+    <!-- Para el blurr y oscurecimiento de la página -->
+    <div class="overlay"></div>
+
+    <!-- Panel para actualizar usuario -->
+    {% if user %}
+        {% include 'public/auth/auth_form.html' %} 
+    {% endif %}
+
+    <!-- Panel de configuración -->
+    {% include 'public/settings.html' %}
+    <div class="page-content" style="flex-direction: row;">
+        <div class="block">
+            <div class="block-header">
+                <h2 class="title">Controladores</h2>
+            </div>
+            <div class="block-content panel-list">
+                <div class="area-control">    
+                    <h3 class="subtitle">Control de área</h3>
+                    <ul>
+                        <li><details>
+                                <summary>
+                                    <span>Ventas</span>
+                                </summary>
+                                <ul>
+                                    <li><button data-graphtype="general">General</button></li>
+                                    <li><button data-graphtype="products">Productos</button></li>
+                                    <li><button data-graphtype="finance">Financiero</button></li>
+                                </ul>
+                        </details></li>
+                        <li><details>
+                                <summary>
+                                    <span>Inventario</span>
+                                </summary>
+                                <ul>
+                                    <li><button>General</button></li>
+                                    <li><button>Productos</button></li>
+                                    <li><button>Financiero</button></li>
+                                </ul>
+                        </details></li>
+                        <li><details>
+                                <summary>
+                                    <span>Empleados</span>
+                                </summary>
+                                <ul>
+                                    <li><button>General</button></li>
+                                    <li><button>Productos</button></li>
+                                    <li><button>Financiero</button></li>
+                                </ul>
+                        </details></li>
+                    </ul>
+                </div>
+                <div class="date-control">
+                    <h3 class="subtitle">Control de fechas</h3>
+                    <ul data-name="graphdate" class="selectables">
+                        <li><button data-graphdate="daily">Diario</button></li>
+                        <li><button data-graphdate="weekly">Semanal</button></li>
+                        <li><button data-graphdate="monthly">Mensual</button></li>
+                        <li>
+                            <button data-graphdate="personalized">Rangos personalizados</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sector-control">
+                    <h3 class="subtitle">Control de sectores</h3>
+                    <ul data-name="graphsection" class="selectables">
+                        <li><button data-graphsection="general">General</button></li>
+                        <li><button data-graphsection="bar">Barra</button></li>
+                        <li><button data-graphsection="kitchen">Cocina</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="block graphs">
+            <div class="block-header">
+                <h2 class="title">Acá irían los gráficos</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}

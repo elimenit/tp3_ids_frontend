@@ -1,10 +1,9 @@
 # Constantes y helpers
-from constants import URL_PUBLIC_USERS_ME
-from utils.helpers import make_request, flash_message
+from services.public.users import get_user
 
 # Librerias
 from werkzeug.exceptions import HTTPException
-from flask import Flask, render_template, request, url_for
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -14,10 +13,12 @@ app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo'
 from routers.auth import public_bp_auth
 from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
+from routers.admin.dashboards import admin_bp_dashboards
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
+app.register_blueprint(admin_bp_dashboards, url_prefix="/admin/dashboards")
 
 # Errors
 @app.errorhandler(404)
@@ -36,25 +37,9 @@ def main():
     user = None
 
     if token:
-        response = make_request(URL_PUBLIC_USERS_ME, "GET", token=token)
-        if response.status_code == 200:
-            user = response.json()
-        elif response.status_code != 401: # si es 401, simplemente no se ha iniciado sesión/expiró, no es un error
-            data = response.json()
-            flash_message(
-                data.get('message', 'Error desconocido.'),
-                data.get('description', '')
-            )
-    
-    return render_template('public/index.html', 
-        user=user, 
-        modal=True,
-        form_heading="Actualiza tu información",
-        show_username=True,
-        show_confirm_password=True,
-        submit_label="Actualizar",
-        form_action=url_for('public_users.update_user'),
-        )
+        user = get_user(token)
+
+    return render_template('public/index.html', user=user)
 
 
 if __name__ == '__main__':
