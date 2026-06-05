@@ -4,6 +4,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: rgb(54, 54, 54);
     overflow-x: hidden;
+    color: aliceblue;
 }
 
 input {

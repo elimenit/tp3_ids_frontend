@@ -1,0 +1,22 @@
+.graphs-sidebar {
+    flex: 0.1 0 auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}   
+
+.area-control, .date-control, .sector-control {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+}
+
+.graphs-sidebar ul {
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+}
+
+.graphs {
+    flex: 20 0 auto;
+}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de Administración{% endblock %}
+
+{% block head %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sections/dashboard.css') }}">
+
+    <!-- JS -->
+    <script type="module" src="{{ url_for('static', filename='js/dashboards/dashboards.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+    {% include 'public/nav.html' %}
+{% endblock %}
+
+{% block body %}
+    <!-- Para el blurr y oscurecimiento de la página -->
+    <div class="overlay"></div>
+
+    <!-- Panel para actualizar usuario -->
+    {% if user %}
+        {% include 'public/auth/auth_form.html' %} 
+    {% endif %}
+
+    <!-- Panel de configuración -->
+    {% include 'public/settings.html' %}
+    <div class="page-content" style="flex-direction: row;">
+        <div class="block flex-block graphs-sidebar">
+            <div class="block-header">
+                <h2>Controladores</h2>
+            </div>
+            <div class="block-content panel-list">
+                <div class="area-control">    
+                    <h3>Control de área</h3>
+                    <ul data-name="grapharea">
+                        <li><button data-grapharea="kitchen">Reservas</button></li>
+                        <li><button data-grapharea="bar">Delivery</button></li>
+                        <li><button data-grapharea="floor">Reseñas</button></li>
+                    </ul>
+                </div>
+                <div class="date-control">
+                    <h3>Control de fechas</h3>
+                    <ul data-name="graphdate">
+                        <li><button data-graphdate="daily">Diario</button></li>
+                        <li><button data-graphdate="weekly">Semanal</button></li>
+                        <li><button data-graphdate="monthly">Mensual</button></li>
+                        <li>
+                            <button data-graphdate="personalized">Personalizado</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="block flex-block graphs">
+            <div class="block-header">
+                <h2>Gráficos</h2>
+            </div>
+        </div>
+    </div>
+{% endblock %}
