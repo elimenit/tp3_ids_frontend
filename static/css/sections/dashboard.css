@@ -1,5 +1,5 @@
 .graphs-sidebar {
-    flex: 1 0 auto;
+    flex: 0.1 0 auto;
     overflow-y: scroll;
     overflow-x: hidden;
 }   
@@ -17,28 +17,6 @@
     flex-direction: column;
 }
 
-.graphs-sidebar details ul {
-    margin: 0.5rem 0 0.5rem 0;
-}
-
-.graphs-sidebar summary span {
-    margin-left: 1rem;
-}
-
-.graphs-sidebar details summary {
-    padding-bottom: 0.3rem;
-    margin: 0.2rem;
-    font-weight: 500;
-}
-
-.graphs-sidebar details summary:hover {
-    cursor: pointer;
-}
-
-.graphs-sidebar details[open] summary {
-    border-bottom: 2px solid rgba(139, 139, 139, 0.27);
-}
-
 .graphs {
-    flex: 10 0 auto;
+    flex: 20 0 auto;
 }

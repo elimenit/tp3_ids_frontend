@@ -33,6 +33,11 @@
     gap: 15px;
 }
 
+.flex-block {
+    display: flex;
+    flex-direction: column;
+}
+
 .block-footer {
     position: relative;
     padding: 20px;
