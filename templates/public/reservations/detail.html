@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %} Reservación #{{ reserva.id }} {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reservations.css') }}">
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% endblock %}
+
+{% block body %}
+<main class="reservations-container">
+    <a href="/admin/reservations/" class="back-link">← Volver al listado</a>
+
+    <div class="fixed-block open">
+        <div class="block">
+            <div class="block-header">
+                <h2>Reservación #{{ reserva.id }}</h2>
+            </div>
+
+            <div class="block-content">
+                <ul>
+                    <li><strong>Cliente:</strong> {{ reserva.user_name }}</li>
+                    <li><strong>Email:</strong> {{ reserva.user_email }}</li>
+                    <li><strong>Mesa:</strong> {{ reserva.table_number }}</li>
+                    <li><strong>Capacidad:</strong> {{ reserva.capacity }} personas</li>
+                    <li><strong>Fecha y hora:</strong> {{ reserva.reservation_datetime }}</li>
+                    <li><strong>Estado actual:</strong> {{ reserva.status_reservation }}</li>
+                </ul>
+
+                {# Formulario para cambiar estado
+                Solo aparece si la reserva no está terminada #}
+                {% if reserva.status_reservation not in ['Cancelled', 'Arrived'] %}
+                <form action="/admin/reservations/{{ reserva.id }}/estado" method="POST">
+                    <div class="form-group">
+                        <label for="status_reservation">Cambiar estado</label>
+                        <select id="status_reservation" name="status_reservation">
+                            {% for estado in ['Pending', 'Confirmed', 'Cancelled', 'Arrived'] %}
+                            <option value="{{ estado }}" {{ 'selected' if reserva.status_reservation==estado else '' }}>
+                                {{ estado }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="block-footer">
+                        <button class="submit-btn" type="submit">
+                            Guardar cambio
+                        </button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}
+{% include 'public/footer.html' %}
+{% endblock %}

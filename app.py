@@ -1,10 +1,11 @@
 # Constantes y helpers
 from constants import URL_PUBLIC_USERS_ME
 from utils.helpers import make_request, flash_message
-
+from routers.public.reservations import public_bp_reservations
 # Librerias
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request, url_for
+
 
 app = Flask(__name__)
 
@@ -14,10 +15,13 @@ app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo'
 from routers.auth import public_bp_auth
 from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
+from routers.public.reservations import public_bp_reservations
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
+app.register_blueprint(public_bp_reservations, url_prefix="/reservations")
+
 
 # Errors
 @app.errorhandler(404)

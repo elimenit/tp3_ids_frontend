@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Reservación Confirmada {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reservations.css') }}">
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% endblock %}
+
+{% block body %}
+<main class="reservations-container">
+    <div class="fixed-block open">
+        <div class="block">
+            <div class="block-header">
+                <h2>¡Reservación confirmada!</h2>
+            </div>
+
+            <div class="block-content">
+                <p>Te enviamos el QR a <strong>{{ reserva.user_email }}</strong>.</p>
+                <p>Presentalo al llegar al restaurante.</p>
+
+                <ul>
+                    <li><strong>Reserva #:</strong> {{ reserva.id }}</li>
+                    <li><strong>Titular:</strong> {{ reserva.user_name }}</li>
+                    <li><strong>Mesa:</strong> {{ reserva.table_number }}</li>
+                    <li><strong>Capacidad:</strong> {{ reserva.capacity }} personas</li>
+                    <li><strong>Fecha y hora:</strong> {{ reserva.reservation_datetime }}</li>
+                    <li><strong>Estado:</strong> {{ reserva.status_reservation }}</li>
+                </ul>
+            </div>
+
+            <div class="block-footer">
+                <a href="{{ url_for('main') }}" class="submit-btn">
+                    Volver al inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block footer %}
+{% include 'public/footer.html' %}
+{% endblock %}

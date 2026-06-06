@@ -69,3 +69,15 @@
     visibility: visible;
     transform: translate(-50%, -50%);
 }
+
+.page-content {
+    padding: 20px;
+    margin-top: 4.5rem;
+    /* Altura de la navbar */
+    height: calc(100vh - 4.5rem - 40px);
+    /* Altura total menos navbar y padding */
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    gap: 20px;
+}
