@@ -3,8 +3,6 @@
 
 {% block head %}
 <!-- CSS -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/nav.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/general.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
 
@@ -14,10 +12,18 @@
 {% endblock %}
 
 {% block header %}
-{% include 'public/nav.html' %}
+    {% include 'public/nav.html' %}
 {% endblock %}
 
 {% block body %}
+    <!-- Para el blurr y oscurecimiento de la página -->
+    <div class="overlay"></div>
+    <!-- Panel para actualizar usuario -->
+    {% if user %}    
+    {% include 'public/auth/auth_form.html' %} 
+    {% endif %}
+
+    {% include 'public/settings.html' %}
 <header class="main-banner">
     <div class="banner-logo">
         <img src="{{ url_for('static', filename='img/nav-logo.png') }}" alt="Logo del restaurante">
