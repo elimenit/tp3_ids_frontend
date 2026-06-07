@@ -1,5 +1,9 @@
 /* Estilos para la página principal */
 
+html {
+    scroll-behavior: smooth;
+}
+
 .main-banner {
     width: 100%;
     height: 100vh;
@@ -332,6 +336,11 @@
     
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.reservation-button a{
+    color: inherit;
+    text-decoration: none;
 }
 
 .reservation-button:hover {
