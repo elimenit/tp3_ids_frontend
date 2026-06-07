@@ -4,7 +4,7 @@
     </a>
     <ul>
         <li><a>Menú</a></li>
-        <li><a>Contacto</a></li> 
+        <li><a href="{{ url_for('main') }}#contacto">Contacto</a></li> 
         <li><a href="{{ url_for('public_deliveries.show') }}">Delivery</a></li> 
         {% if not user %}
         <li><a href="{{ url_for('public_auth.login') }}">Iniciar sesión</a></li>
