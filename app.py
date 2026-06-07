@@ -14,10 +14,14 @@ app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo'
 from routers.auth import public_bp_auth
 from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
+from routers.public.menus import public_bp_menus
+from routers.admin.menus import admin_bp_menus
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
+app.register_blueprint(public_bp_menus, url_prefix="/menu")
+app.register_blueprint(admin_bp_menus, url_prefix="/admin/menus")
 
 # Errors
 @app.errorhandler(404)

@@ -1,5 +1,5 @@
 from services.public.deliveries import get_deliveries, get_delivery
-from utils.helpers import flash_message
+from utils.helpers import flash_message, get_current_user
 
 from flask import Blueprint, request, render_template, redirect, url_for
 
@@ -21,7 +21,8 @@ def show():
         flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
         return redirect(url_for('public_auth.login'))
     
-    return render_template('public/delivery/deliveries.html', deliveries=deliveries)
+    user = get_current_user()
+    return render_template('public/delivery/deliveries.html', deliveries=deliveries, user=user)
 
 @public_bp_deliveries.route("/<int:delivery_id>", methods=["GET", 'DELETE'])
 def take_delivery(delivery_id: int):
@@ -40,4 +41,5 @@ def take_delivery(delivery_id: int):
     if delivery is None:
         return redirect(url_for('public_auth.login'))
           
-    return render_template('public/delivery/delivery.html', delivery=delivery)
+    user = get_current_user()
+    return render_template('public/delivery/delivery.html', delivery=delivery, user=user)

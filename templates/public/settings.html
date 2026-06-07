@@ -7,8 +7,9 @@
             {% if user %}
             <li><button id="adminUser">Administrar usuario</button></li>
             {% endif %}
-            <li><a href="#">Opción 2</a></li>
-            <li><a href="#">Opción 3</a></li>
+            {% if user and user.get('category') in ('admin', 'root') %}
+            <li><a href="{{ url_for('admin_menus.show') }}">Panel de menús</a></li>
+            {% endif %}
             {% if user %}
             <li><a href="{{ url_for('public_auth.logout') }}">Cerrar sesión</a></li>
             {% endif %}
