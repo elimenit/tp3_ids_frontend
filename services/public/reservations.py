@@ -10,7 +10,7 @@ from constants import (
     URL_RESERVATIONS_CANCEL,
     URL_ADMIN_RESERVATIONS,
 )
-from utils.helpers import make_request
+from utils.helpers import make_request, flash_message
 
 
 def get_tables(token, fecha=None, hora=None):
@@ -31,6 +31,10 @@ def get_tables(token, fecha=None, hora=None):
     if response.status_code == 200:
         return response.json()
 
+    data = response.json()
+    title = data.get('message', 'Error')
+    description = data.get('description', '')
+    flash_message(title, description)
     return None
 
 
@@ -88,14 +92,9 @@ def cancel_by_token(qr_token):
 
 
 def get_all_reservations(token):
-    """
-    Pide al backend todas las reservaciones. Uso: panel admin.
-    """
     response = make_request(URL_ADMIN_RESERVATIONS, "GET", token=token)
-
     if response.status_code == 200:
         return response.json()
-
     return None
 
 
