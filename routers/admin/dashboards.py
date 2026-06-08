@@ -36,4 +36,4 @@ def show(area: str = 'reservations'):
         data = response.json()
         flash_message(data.get('message', 'Error'), data.get('description', 'Se ha producido un error desconocido'))
 
-    return render_template('admin/dashboards.html', user=True, area=area, data=data, inicio=inicio, fin=fin, hoy=ftoday)
+    return render_template('admin/dashboards.html', user=user, area=area, data=data, inicio=inicio, fin=fin, hoy=ftoday)
