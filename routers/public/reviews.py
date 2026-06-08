@@ -11,12 +11,6 @@ def show():
     user = get_current_user()
     return render_template('public/reviews/reviews.html',
         user=user,
-        modal=True,
-        form_heading="Actualiza tu información",
-        show_username=True,
-        show_confirm_password=True,
-        submit_label="Actualizar",
-        form_action=url_for('public_users.update_user'),
     )
 
 
