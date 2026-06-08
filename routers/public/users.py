@@ -1,9 +1,22 @@
 from constants import URL_PUBLIC_USERS_ME
 from utils.helpers import make_request, flash_message
 
-from flask import request, redirect, url_for, Blueprint
+from flask import request, redirect, url_for, Blueprint, jsonify
 
 public_bp_users = Blueprint('public_users', __name__)
+
+
+@public_bp_users.route("/me", methods=["GET"])
+def me():
+    token = request.cookies.get('session_token')
+    if not token:
+        return jsonify({"mensaje": "No autorizado"}), 401
+    from utils.helpers import make_request
+    response = make_request(URL_PUBLIC_USERS_ME, "GET", token=token)
+    if response.status_code == 200:
+        return jsonify(response.json())
+    return jsonify({"mensaje": "Sesión inválida"}), response.status_code
+
 
 @public_bp_users.route("/update", methods=['POST'])
 def update_user():
