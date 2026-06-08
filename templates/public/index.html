@@ -4,6 +4,11 @@
 {% block head %}
 <!-- CSS -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
+
+<!-- JS -->
+<script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/carousel.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -31,18 +36,39 @@
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, eveniet!</p>
 
         <div class="menu-button">
-            <button class="btn">Ver Menú</button>
+            <a href="{{ url_for('public_menus.show') }}" class="btn">Ver Menú</a>
         </div>
     </div>
 
     <div class="menu-img">
-        <img src="{{ url_for('static', filename='img/menu_img1.jpg') }}" alt="Imagenes de platos del restaurante">
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev-btn" aria-label="Anterior">‹</button>
+            
+            <div class="carousel">
+                <div class="category-card">
+                    <img src="{{ url_for('static', filename='img/menu_img1.jpg') }}" alt="Categoría Parrilla">
+                    <div class="category-label">Parrilla</div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="{{ url_for('static', filename='img/menu-entrada.jpg') }}" alt="Categoría Entradas">
+                    <div class="category-label">Entradas</div>
+                </div>
+                
+                <div class="category-card">
+                    <img src="{{ url_for('static', filename='img/menu-postre.jpg') }}" alt="Categoría Postres">
+                    <div class="category-label">Postres</div>
+                </div>
+            </div>
+            
+            <button class="carousel-btn next-btn" aria-label="Siguiente">›</button>
+        </div>
     </div>
 </section>
 
 <section class="info">   
     <div class="info-img">
-        <img src="{{ url_for('static', filename='img/menu_img1.jpg') }}" alt="Imagenes del restaurante">
+        <img src="{{ url_for('static', filename='img/restaurant-interior.jpg') }}" alt="Imagenes del restaurante">
     </div>
     
     <div class="info-text">
@@ -56,28 +82,35 @@
     <div class="reviews-container">
         <h2>Opiniones de Clientes</h2>
         
-        <div class="carousel">
-            <div class="review-card">
-                <div class="review-stars">★★★★★</div>
-                <p class="review-comment">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus placeat quam atque eveniet sapiente ex.</p>
-                <span class="review-author">- Juan Pérez</span>
+        <div class="carousel-wrapper">
+            <button class="carousel-btn prev-btn" aria-label="Anterior">‹</button>
+            
+            <div class="carousel">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-comment">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus placeat quam atque eveniet sapiente ex.</p>
+                    <span class="review-author">- Juan Pérez</span>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, deleniti.</p>
+                    <span class="review-author">- María L.</span>
+                </div>
+                
+                <div class="review-card">
+                    <div class="review-stars">★★★★☆</div>
+                    <p class="review-comment">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur provident quidem perferendis doloribus veniam laudantium sequi aut enim iusto nobis.</p>
+                    <span class="review-author">- Carlos G.</span>
+                </div>
             </div>
             
-            <div class="review-card">
-                <div class="review-stars">★★★★★</div>
-                <p class="review-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, deleniti.</p>
-                <span class="review-author">- María L.</span>
-            </div>
-            
-            <div class="review-card">
-                <div class="review-stars">★★★★☆</div>
-                <p class="review-comment">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur provident quidem perferendis doloribus veniam laudantium sequi aut enim iusto nobis.</p>
-                <span class="review-author">- Carlos G.</span>
-            </div>
+            <button class="carousel-btn next-btn" aria-label="Siguiente">›</button>
         </div>
+    
     </div>
 
-    <div class="map-and-info-container">
+    <div class="map-and-info-container" id="contacto">
         <h2>Ubicación y Contacto</h2>
         
         <div class="map-wrapper">
@@ -102,10 +135,10 @@
 
 <section>
     <div class="reservation">
-        <h2>Reserva tu Mesa</h2>
+        <h2>Reservá tu mesa ahora o pedí por Delivery</h2>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, dolorem?</p>
         <button class="reservation-button">Reservar Ahora</button>
-
+        <button class="reservation-button"><a href="{{ url_for('public_deliveries.show') }}">Pedir Delivery</a></button>
     </div>
 </section>
 

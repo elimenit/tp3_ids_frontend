@@ -1,6 +1,6 @@
 import requests
 from typing import Literal
-from flask import Response, flash
+from flask import Response, flash, request
 import json
 
 def make_request(
@@ -60,6 +60,21 @@ def make_cookie_response(res: Response, token: str):
         secure=False,
         max_age=3600
     )
+
+def get_current_user() -> dict | None:
+    """
+    Obtiene el usuario autenticado a partir de la cookie de sesión.
+    Retorna el dict del usuario o None si no hay sesión válida.
+    """
+    from constants import URL_PUBLIC_USERS_ME
+    token = request.cookies.get('session_token')
+    if not token:
+        return None
+    response = make_request(URL_PUBLIC_USERS_ME, "GET", token=token)
+    if response.status_code == 200:
+        return response.json()
+    return None
+
 
 def flash_message(
         title: str, 

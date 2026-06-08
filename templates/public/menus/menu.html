@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %} Menú — Restaurante {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+<script type="module" src="{{ url_for('static', filename='js/menu.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% include 'public/settings.html' %}
+{% endblock %}
+
+{% block body %}
+{% if user %}
+{% include 'public/auth/auth_form.html' %}
+{% endif %}
+<main class="menu-page">
+    <h1 class="menu-title">Nuestro Menú</h1>
+
+    <div class="menu-tabs" role="tablist">
+        <button class="tab-btn active" data-category="all" role="tab" aria-selected="true">Todos</button>
+        <button class="tab-btn" data-category="burgers" role="tab" aria-selected="false">Hamburguesas</button>
+        <button class="tab-btn" data-category="drinks" role="tab" aria-selected="false">Bebidas</button>
+        <button class="tab-btn" data-category="pasta" role="tab" aria-selected="false">Pastas</button>
+        <button class="tab-btn" data-category="soup" role="tab" aria-selected="false">Sopas</button>
+    </div>
+
+    <div id="menu-loading" class="loading-spinner" aria-live="polite">Cargando menú...</div>
+    <div id="menu-error" class="error-message" hidden aria-live="assertive"></div>
+    <div id="menu-grid" class="menu-grid" hidden></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+{% endblock %}
+
+{% block footer %}
+{% include 'public/footer.html' %}
+{% endblock %}
