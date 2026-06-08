@@ -17,6 +17,8 @@ from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
 from routers.public.reservations import public_bp_reservations
 from routers.admin.reservations import adm_bp_reservations
+from routers.public.menus import public_bp_menus
+from routers.admin.menus import admin_bp_menus
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
@@ -24,6 +26,8 @@ app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
 app.register_blueprint(public_bp_reservations, url_prefix="/reservations")
 app.register_blueprint(adm_bp_reservations, url_prefix="/admin/reservations")
 
+app.register_blueprint(public_bp_menus, url_prefix="/menu")
+app.register_blueprint(admin_bp_menus, url_prefix="/admin/menus")
 
 # Errors
 @app.errorhandler(404)
