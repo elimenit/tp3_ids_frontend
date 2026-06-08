@@ -43,6 +43,6 @@
   text-align: left;
 }
 
-.panel-list a:hover, .panel-list button:hover, .panel-list button.active {
+.panel-list a:hover, .panel-list button:hover, .panel-list button.active, .panel-list a.active {
   font-weight: 700;
 }

@@ -58,7 +58,7 @@ def make_cookie_response(res: Response, token: str):
         httponly=True,
         samesite="Lax",
         secure=False,
-        max_age=3600
+        max_age=7200
     )
 
 def flash_message(
