@@ -9,6 +9,7 @@
 <!-- JS -->
 <script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
 <script defer src="{{ url_for('static', filename='js/carousel.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/home_reviews.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -81,33 +82,16 @@
     
     <div class="reviews-container">
         <h2>Opiniones de Clientes</h2>
-        
+
         <div class="carousel-wrapper">
             <button class="carousel-btn prev-btn" aria-label="Anterior">‹</button>
-            
-            <div class="carousel">
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-comment">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus placeat quam atque eveniet sapiente ex.</p>
-                    <span class="review-author">- Juan Pérez</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-stars">★★★★★</div>
-                    <p class="review-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sequi, deleniti.</p>
-                    <span class="review-author">- María L.</span>
-                </div>
-                
-                <div class="review-card">
-                    <div class="review-stars">★★★★☆</div>
-                    <p class="review-comment">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequuntur provident quidem perferendis doloribus veniam laudantium sequi aut enim iusto nobis.</p>
-                    <span class="review-author">- Carlos G.</span>
-                </div>
-            </div>
-            
+            <div class="carousel" id="reviews-carousel"></div>
             <button class="carousel-btn next-btn" aria-label="Siguiente">›</button>
         </div>
-    
+
+        <div class="reviews-link-wrapper">
+            <a href="{{ url_for('public_reviews.show') }}" class="reviews-link">Ver todas las reseñas →</a>
+        </div>
     </div>
 
     <div class="map-and-info-container" id="contacto">
