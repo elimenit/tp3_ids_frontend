@@ -1,38 +1,35 @@
 /* =============================================================================
-   CONTENEDOR PRINCIPAL Y LAYOUT DE DOS COLUMNAS
+   CONTENEDOR PRINCIPAL
    ============================================================================= */
-.reservations-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 90px auto 0 auto;
-    /* El margen superior de 90px evita que lo tape el Nav */
-    font-family: system-ui, -apple-system, sans-serif;
-}
-
 .reservations-container {
     padding: 2rem;
     max-width: 1200px;
     margin: 100px auto 0 auto;
-    /* Bajamos a 100px para garantizar que libre el Nav */
     font-family: system-ui, -apple-system, sans-serif;
 }
 
-.reservations-layout {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    /* Alinea el inicio del formulario con el inicio de las mesas */
-    gap: 3rem;
-    /* Más separación limpia hacia la derecha */
-    margin-top: 1rem;
+.reservations-container h1 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
 }
 
 /* =============================================================================
-   SECCIÓN DE LAS TARJETAS (COLUMNA IZQUIERDA)
+   LAYOUT DE DOS COLUMNAS
+   Izquierda: mesas    Derecha: formulario
+   ============================================================================= */
+.reservations-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    /* Izquierda ocupa todo el espacio disponible, derecha fija 420px */
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+/* =============================================================================
+   COLUMNA IZQUIERDA: MESAS
    ============================================================================= */
 .tables-section {
-    flex: 1;
-    /* Hace que use todo el espacio izquierdo disponible de forma fluida */
+    width: 100%;
 }
 
 .tables-section h2 {
@@ -41,69 +38,69 @@
     font-weight: 600;
 }
 
+/* Grilla de mesas: siempre 2 columnas */
 .tables-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-    /* Un poco más de espacio entre cartas */
-    margin-bottom: 2rem;
 }
 
-/* Tarjeta Base */
+/* Tarjeta base */
 .table-card {
     padding: 1.75rem 1.25rem;
-    /* Más espacio interno para que se vean grandes */
     border-radius: 14px;
     text-align: center;
     border: 2px solid;
     background: #ffffff;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .table-card h3 {
     margin-top: 0;
     margin-bottom: 8px;
     font-size: 1.25rem;
-    /* Título de la mesa más grande */
     font-weight: 700;
 }
 
 .table-card p {
     font-size: 0.95rem;
-    /* Texto de capacidad y precio más legible */
     margin-bottom: 10px;
     opacity: 0.9;
 }
 
-/* Estados de las Mesas */
+/* Mesa disponible */
 .table-available {
     background: #f4fbf6;
-    border-color: #81c784;
+    border-color: rgb(221, 151, 85);
     cursor: pointer;
     color: #1b5e20;
 }
 
 .table-available:hover {
     transform: translateY(-4px);
-    border-color: #4caf50;
+    border-color: rgb(221, 151, 85);
     box-shadow: 0 6px 16px rgba(76, 175, 80, 0.15);
 }
 
+/* Mesa reservada */
 .table-reserved {
     background: #fffbfa;
     border-color: #ef9a9a;
     color: #c62828;
     cursor: not-allowed;
+    opacity: 0.75;
 }
 
+/* Mesa ocupada */
 .table-occupied {
     background: #fafafa;
     border-color: #e0e0e0;
     color: #616161;
     cursor: not-allowed;
+    opacity: 0.75;
 }
 
-/* Badges de Estado */
+/* Badges */
 .table-status {
     display: inline-block;
     padding: 4px 12px;
@@ -117,7 +114,7 @@
 
 .status-available {
     background: #e8f5e9;
-    color: #2e7d32;
+    color: rgb(221, 151, 85);
 }
 
 .status-reserved {
@@ -131,21 +128,17 @@
 }
 
 /* =============================================================================
-   BLOQUE DEL FORMULARIO (COLUMNA DERECHA STICKY)
+   COLUMNA DERECHA: FORMULARIO STICKY
    ============================================================================= */
-.fixed-block {
+.open {
     position: sticky;
     top: 120px;
-    /* Se congela en el scroll 120px abajo del tope de la pantalla (evita el Nav) */
     width: 100%;
-    max-width: 420px;
     background: #1e1e1e;
     color: #ffffff;
     border-radius: 14px;
     padding: 1.75rem;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    margin-top: 0 !important;
-    /* El !important destruye cualquier margen viejo que lo suba */
 }
 
 .block-header h2 {
@@ -153,6 +146,13 @@
     font-size: 1.4rem;
     border-bottom: 1px solid #333;
     padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.block-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .form-group {
@@ -182,20 +182,24 @@
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #4caf50;
+    border-color: rgb(221, 151, 85);
 }
 
 .form-group input[readonly] {
     background: #222;
-    color: #4caf50;
+    color: rgb(221, 151, 85);
     font-weight: 600;
     cursor: default;
+}
+
+.block-footer {
+    margin-top: 0.5rem;
 }
 
 .submit-btn {
     width: 100%;
     padding: 12px;
-    background: #4caf50;
+    background: rgb(221, 151, 85);
     color: white;
     border: none;
     border-radius: 6px;
@@ -210,7 +214,24 @@
 }
 
 /* =============================================================================
-   VISTAS DEL PANEL ADMIN
+   MENSAJE CUANDO NO HAY MESAS TODAVIA
+   ============================================================================= */
+.no-tables-msg {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    color: #888;
+    border: 1px dashed #444;
+}
+
+.no-tables-msg p {
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+/* =============================================================================
+   ADMIN
    ============================================================================= */
 .back-link {
     display: inline-block;
@@ -229,19 +250,76 @@
     gap: 1rem;
 }
 
+
+/* Pantallas de confirmación y cancelación */
+.confirmation-container {
+    max-width: 500px;
+    margin: 120px auto 0 auto;
+    padding: 2rem;
+}
+
+.confirmation-container .block {
+    background: #1e1e1e;
+    color: white;
+    border-radius: 14px;
+    padding: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.confirmation-container .block-header h2 {
+    margin-top: 0;
+    font-size: 1.4rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.confirmation-container .block-content ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.confirmation-container .block-content li {
+    font-size: 0.95rem;
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
+.confirmation-container .block-footer {
+    margin-top: 1.5rem;
+}
+
+.confirmation-container .submit-btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+
+
 /* =============================================================================
-   RESPONSIVE (Celulares o pantallas chicas)
+   RESPONSIVE
    ============================================================================= */
 @media (max-width: 850px) {
     .reservations-layout {
-        flex-direction: column-reverse;
-        /* En celular el form pasa abajo limpiamente */
-        gap: 2rem;
+        grid-template-columns: 1fr;
     }
 
-    .fixed-block {
+    .tables-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .open {
         position: relative;
         top: 0;
-        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tables-grid {
+        grid-template-columns: 1fr;
     }
 }
