@@ -436,3 +436,19 @@ html {
     font-size: 0.9rem;
     font-weight: bold;
 }
+
+.reviews-link-wrapper {
+    margin-top: 1rem;
+    text-align: right;
+}
+
+.reviews-link {
+    color: #dd9755;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.reviews-link:hover {
+    color: #f0aa60;
+}
