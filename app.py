@@ -16,11 +16,13 @@ from routers.auth import public_bp_auth
 from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
 from routers.public.reservations import public_bp_reservations
+from routers.admin.reservations import adm_bp_reservations
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
 app.register_blueprint(public_bp_reservations, url_prefix="/reservations")
+app.register_blueprint(adm_bp_reservations, url_prefix="/admin/reservations")
 
 
 # Errors
