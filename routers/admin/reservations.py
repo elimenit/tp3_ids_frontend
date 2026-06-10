@@ -7,6 +7,7 @@ from services.public.reservations import (
     get_reservation,
     update_reservation_status,
 )
+from services.public.users import get_user
 
 adm_bp_reservations = Blueprint("admin_reservations", __name__)
 
@@ -31,9 +32,12 @@ def show():
         flash_message("Error", "No se pudieron obtener las reservaciones.")
         reservas = []
 
+    user = get_user(token)
+
     return render_template(
         'admin/reservations/index.html',
-        reservas=reservas
+        reservas=reservas,
+        user=user
     )
 
 
@@ -52,9 +56,12 @@ def detail(id: int):
         flash_message("Error", "Reservación no encontrada.")
         return redirect(url_for('admin_reservations.show'))
 
+    user = get_user(token)
+
     return render_template(
         'admin/reservations/detail.html',
-        reserva=reserva
+        reserva=reserva,
+        user=user
     )
 
 
