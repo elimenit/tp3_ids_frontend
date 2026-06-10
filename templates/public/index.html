@@ -125,7 +125,7 @@
     <div class="reservation">
         <h2>Reservá tu mesa ahora o pedí por Delivery</h2>
         <p>Podes reservar una mesa en nuestro restaurante o pedir para que te lo lleven a tu casa</p>
-        <button class="reservation-button">Reservar Ahora</button>
+        <button class="reservation-button"><a href="{{ url_for('public_reservations.new') }}">Reservar Ahora</a></button>
         <button class="reservation-button"><a href="{{ url_for('public_deliveries.show') }}">Pedir Delivery</a></button>
     </div>
 </section>
