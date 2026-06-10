@@ -1,5 +1,5 @@
 from flask import Blueprint, request, render_template, redirect, url_for
-from utils.helpers import flash_message
+from utils.helpers import flash_message, get_current_user
 from services.public.reservations import (
     get_tables,
     create_reservation,
@@ -17,11 +17,13 @@ public_bp_reservations = Blueprint('public_reservations', __name__)
 def new():
     token = request.cookies.get('session_token')
     tables_data = get_tables(token)
-        
-    return render_template('public/reservations/new.html', 
-                           tables=tables_data, 
-                           fecha="", 
-                           hora="")
+    user = get_current_user()
+
+    return render_template('public/reservations/new.html',
+                           tables=tables_data,
+                           fecha="",
+                           hora="",
+                           user=user)
 
 @public_bp_reservations.route("/", methods=["POST"])
 def create():
@@ -41,22 +43,19 @@ def create():
         )
         return redirect(url_for('public_auth.login'))
 
-    # Leer datos del formulario HTML
     fecha    = request.form.get("fecha")
     hora     = request.form.get("hora")
     table_id = request.form.get("table_id")
+    user     = get_current_user()
 
-    # Enviar al backend
     reserva_id, error = create_reservation(token, table_id, fecha, hora)
 
-    # Caso 1: todo salió bien → ir a confirmación
     if reserva_id:
         return redirect(url_for(
             'public_reservations.confirmacion',
             id=reserva_id
         ))
 
-    # Caso 2: mesa no disponible → mostrar mesas libres con mensaje
     if error and error.get("tipo") == "mesa_no_disponible":
         flash_message(
             "Mesa no disponible",
@@ -69,9 +68,9 @@ def create():
             tables=mesas_libres,
             fecha=fecha,
             hora=hora,
+            user=user,
         )
 
-    # Caso 3: otro error genérico
     flash_message(
         "Error al reservar",
         error.get("mensaje", "Ocurrió un error inesperado.") if error else ""
@@ -81,6 +80,7 @@ def create():
         tables=[],
         fecha=fecha,
         hora=hora,
+        user=user,
     )
 
 
@@ -103,7 +103,8 @@ def confirmacion(id):
 
     return render_template(
         'public/reservations/confirmacion.html',
-        reserva=reserva
+        reserva=reserva,
+        user=get_current_user(),
     )
 
 
@@ -125,7 +126,8 @@ def cancelar():
     return render_template(
         'public/reservations/cancelacion.html',
         ok=ok,
-        mensaje=mensaje
+        mensaje=mensaje,
+        user=get_current_user(),
     )
 
 
