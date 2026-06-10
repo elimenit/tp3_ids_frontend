@@ -29,12 +29,16 @@
     <div class="banner-logo">
         <img src="{{ url_for('static', filename='img/nav-logo.png') }}" alt="Logo del restaurante">
     </div>
+    
+    <div class="scroll-indicator">
+        <a href="#menu" class="scroll-arrow">↓</a>
+    </div>
 </header>
 
-<section class="menu">
+<section class="menu" id="menu">
     <div class="menu-text">
         <h2>Nuestros Platos</h2>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Esse, eveniet!</p>
+        <p>¡Mirá entre una gran variedad de platos para elegir, ya sean entradas, platos principales o postres!</p>
 
         <div class="menu-button">
             <a href="{{ url_for('public_menus.show') }}" class="btn">Ver Menú</a>
@@ -74,7 +78,7 @@
     
     <div class="info-text">
         <h2>Acerca del restaurante</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci iusto praesentium dolor in nesciunt, nisi deserunt amet ipsam eos eius totam delectus cum at tempore minima impedit fuga maiores qui!</p>
+        <p>¡Contamos con un ambiente acogedor y un servicio excepcional para ofrecerte la mejor experiencia culinaria, no importa si venis solo, en familia o con amigos!</p>
     </div>
 </section>
 
@@ -120,7 +124,7 @@
 <section>
     <div class="reservation">
         <h2>Reservá tu mesa ahora o pedí por Delivery</h2>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid, dolorem?</p>
+        <p>Podes reservar una mesa en nuestro restaurante o pedir para que te lo lleven a tu casa</p>
         <button class="reservation-button">Reservar Ahora</button>
         <button class="reservation-button"><a href="{{ url_for('public_deliveries.show') }}">Pedir Delivery</a></button>
     </div>
