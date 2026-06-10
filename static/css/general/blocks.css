@@ -72,8 +72,8 @@
 
 .page-content {
     padding: 20px;
-    margin-top: 4.5rem; /* Altura de la navbar */
-    height: calc(100vh - 4.5rem - 40px); /* Altura total menos navbar y padding */
+    margin-top: 4.5rem;
+    height: calc(100vh - 4.5rem - 40px);
     display: flex;
     flex-direction: row;
     overflow: hidden;

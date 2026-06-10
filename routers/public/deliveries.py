@@ -1,4 +1,4 @@
-from services.public.deliveries import get_deliveries, get_delivery
+from services.public.deliveries import get_deliveries_user, get_delivery_user
 from utils.helpers import flash_message, get_current_user
 
 from flask import Blueprint, request, render_template, redirect, url_for
@@ -16,7 +16,7 @@ def show():
     if request.method == 'POST':
         pass
 
-    deliveries = get_deliveries(token, headers)
+    deliveries = get_deliveries_user(token, headers)
     if deliveries is None:
         flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
         return redirect(url_for('public_auth.login'))
@@ -37,7 +37,7 @@ def take_delivery(delivery_id: int):
     if request.method == 'DELETE':
         pass
     
-    delivery = get_delivery(token, delivery_id, headers=headers)
+    delivery = get_delivery_user(token, delivery_id, headers=headers)
     if delivery is None:
         return redirect(url_for('public_auth.login'))
           
