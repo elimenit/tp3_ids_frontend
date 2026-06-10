@@ -1,4 +1,5 @@
 #!/bin/bash
+option=$1
 export DOCKER_BUILDKIT=0 # (Build)
 URL_API="http://127.0.0.1:15000/"
 tecnologias_sistema() {
@@ -28,12 +29,46 @@ correr_container_docker() {
     docker container rm tp3_frontend
     docker image rm tp3_frontend
 }
+correr_aplicacion() {
+    if [[ ! -f "app.py" ]]; then
+        echo "[-] No existe el archivo app.py"
+        exit 0
+
+    fi
+    python3 -m app
+}
+menu( ) {
+    echo "------------------Menu de Opciones-----------------"
+    echo "1) Correr Aplicacion en Python"
+    echo "2) Correr aplicacion en Docker"
+    echo "3) Salir"
+}
 main() {
+    menu
     echo "Decargando tecnologias necesarias...!!"
     #tecnologias_sistema
+    option=$1
+    if [[ ! $option ]]; then
+        read -p "Ingrese la opcion: " option
+    fi
+    
 
-    echo "Creando archivo de las variables de entorno!!."
-    generar_punto_env
-    correr_container_docker
+    if [[ $option -eq 1 ]]; then
+
+        echo "Creando archivo de las variables de entorno!!."
+        generar_punto_env
+        echo "Intentando Correr Aplicacion..."
+        correr_aplicacion
+    elif [[ $option -eq 2 ]]; then
+        echo "Intentando correr el container de Docker (Dockerfile)"
+        correr_container_docker
+    elif [[ $option -eq 3 ]]; then
+        echo "Saliendo ..."
+        exit 0
+    else
+        echo "Opcion no valida"
+        exit 0
+    fi
+
 }
-main
+main $option
