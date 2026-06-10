@@ -1,9 +1,9 @@
 # Constantes y helpers
 from services.public.users import get_user
-
 # Librerias
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request
+
 
 app = Flask(__name__)
 
@@ -13,14 +13,23 @@ app.secret_key = 'una_clave_super_secreta_y_larga_para_desarrollo'
 from routers.auth import public_bp_auth
 from routers.public.users import public_bp_users
 from routers.public.deliveries import public_bp_deliveries
+from routers.public.reservations import public_bp_reservations
+from routers.admin.reservations import adm_bp_reservations
 from routers.public.menus import public_bp_menus
+from routers.public.reviews import public_bp_reviews
 from routers.admin.menus import admin_bp_menus
+from routers.admin.dashboards import admin_bp_dashboards
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_deliveries, url_prefix="/deliveries")
+app.register_blueprint(public_bp_reservations, url_prefix="/reservations")
+app.register_blueprint(adm_bp_reservations, url_prefix="/admin/reservations")
+
 app.register_blueprint(public_bp_menus, url_prefix="/menu")
+app.register_blueprint(public_bp_reviews, url_prefix="/reviews")
 app.register_blueprint(admin_bp_menus, url_prefix="/admin/menus")
+app.register_blueprint(admin_bp_dashboards, url_prefix="/admin/dashboards")
 
 # Errors
 @app.errorhandler(404)

@@ -7,6 +7,12 @@
     padding: 10px;
 }
 
+.block.border {
+    background-color: rgba(43, 43, 43, 0);
+    box-shadow: 4px 4px 16px rgba(0, 0, 0, 0);
+    border: 1px solid rgba(124, 124, 124, 0.123)
+}
+
 .block-header {
     padding: 0.5rem;
     display: flex;
@@ -66,8 +72,8 @@
 
 .page-content {
     padding: 20px;
-    margin-top: 4.5rem; /* Altura de la navbar */
-    height: calc(100vh - 4.5rem - 40px); /* Altura total menos navbar y padding */
+    margin-top: 4.5rem;
+    height: calc(100vh - 4.5rem - 40px);
     display: flex;
     flex-direction: row;
     overflow: hidden;

@@ -54,7 +54,8 @@
 .navbar a:not(.logo-link)::after, 
 .panel-list a::after, 
 .panel-list button::after,
-.panel-list button.active::after {
+.panel-list button.active::after,
+.panel-list a.active::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -70,7 +71,8 @@
 .navbar a:not(.logo-link):hover::after, 
 .panel-list a:hover::after, 
 .panel-list button:hover::after,
-.panel-list button.active::after {
+.panel-list button.active::after,
+.panel-list a.active::after {
     background-color: rgba(124, 124, 124, 0.226);
     transform: scaleX(1);
 }
@@ -78,14 +80,16 @@
 /* Efecto hover para los panels */
 .panel-list a::after, 
 .panel-list button::after,
-.panel-list button.active::after {
+.panel-list button.active::after,
+.panel-list a.active::after {
     background: 0;
     transform-origin: right;
 }
 
 .panel-list a:hover::after, 
 .panel-list button:hover::after,
-.panel-list button.active::after {
+.panel-list button.active::after,
+.panel-list a.active::after {
     background: 0;
     transform-origin: left;
 }

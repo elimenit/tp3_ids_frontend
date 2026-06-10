@@ -52,12 +52,8 @@
 
             <label class="form-label">
                 Categoría *
-                <select id="field-category" class="form-input" required>
-                    <option value="burgers">Hamburguesas</option>
-                    <option value="drinks">Bebidas</option>
-                    <option value="pasta">Pastas</option>
-                    <option value="soup">Sopas</option>
-                </select>
+                <input type="text" id="field-category" class="form-input" required placeholder="Ej: pizza, sushi, postres" list="category-suggestions">
+                <datalist id="category-suggestions"></datalist>
             </label>
 
             <label class="form-label">
