@@ -1,0 +1,13 @@
+# Virtual Enviroment
+.venv
+venv
+
+# Trash of interpreter of python
+**/__pycache__
+**/**/*.pyc 
+
+# Vscode
+.vscode
+
+# Secrets Keys
+.env

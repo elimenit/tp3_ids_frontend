@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %} Reservaciones {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reservations.css') }}">
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% endblock %}
+
+{% block body %}
+<main class="reservations-container">
+    <h1>Reservaciones</h1>
+
+    {% if reservas %}
+    <div class="reservations-grid">
+        {% for reserva in reservas %}
+        <div class="delivery-card">
+            <div class="delivery-info">
+                <h3>Reserva #{{ reserva.id }}</h3>
+                <p><strong>Cliente:</strong> {{ reserva.user_name }}</p>
+                <p><strong>Mesa:</strong> {{ reserva.table_number }}</p>
+                <p><strong>Fecha:</strong> {{ reserva.reservation_datetime }}</p>
+                <p><strong>Estado:</strong> {{ reserva.status_reservation }}</p>
+            </div>
+            <a href="/admin/reservations/{{ reserva.id }}">Ver detalle</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <p>No hay reservaciones registradas.</p>
+    {% endif %}
+</main>
+{% endblock %}
+
+{% block footer %}
+{% include 'public/footer.html' %}
+{% endblock %}

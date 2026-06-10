@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %} Panel Admin — Menús {% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_menus.css') }}">
+<script type="module" src="{{ url_for('static', filename='js/admin_menus.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+{% include 'public/nav.html' %}
+{% include 'public/settings.html' %}
+{% endblock %}
+
+{% block body %}
+{% if user %}
+{% include 'public/auth/auth_form.html' %}
+{% endif %}
+<main class="admin-page">
+    <div class="admin-header">
+        <h1 class="admin-title">Panel de Menús</h1>
+        <button id="btn-new-dish" class="btn btn-primary">+ Nuevo Plato</button>
+    </div>
+
+    <div id="admin-loading" class="loading-spinner" aria-live="polite">Cargando platos...</div>
+    <div id="admin-error" class="error-message" hidden aria-live="assertive"></div>
+
+    <table id="dishes-table" class="dishes-table" hidden>
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Disponible</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="dishes-tbody"></tbody>
+    </table>
+</main>
+
+<div id="dish-modal" class="modal-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box block">
+        <h2 id="modal-title" class="modal-title">Nuevo Plato</h2>
+        <form id="dish-form" novalidate>
+            <input type="hidden" id="dish-id">
+
+            <label class="form-label">
+                Nombre *
+                <input type="text" id="field-name" class="form-input" required placeholder="Ej: Hamburguesa clásica">
+            </label>
+
+            <label class="form-label">
+                Categoría *
+                <input type="text" id="field-category" class="form-input" required placeholder="Ej: pizza, sushi, postres" list="category-suggestions">
+                <datalist id="category-suggestions"></datalist>
+            </label>
+
+            <label class="form-label">
+                Descripción
+                <textarea id="field-description" class="form-input form-textarea" placeholder="Descripción del plato..."></textarea>
+            </label>
+
+            <label class="form-label">
+                Precio *
+                <input type="number" id="field-price" class="form-input" min="0.01" step="0.01" required placeholder="0.00">
+            </label>
+
+            <label class="form-label" id="label-available" hidden>
+                <span>Disponible para usuarios</span>
+                <input type="checkbox" id="field-available" checked>
+            </label>
+
+            <label class="form-label">
+                URL de imagen
+                <input type="text" id="field-image-url" class="form-input" placeholder="https://...">
+            </label>
+
+            <div id="form-error" class="form-error" hidden></div>
+
+            <div class="modal-actions">
+                <button type="submit" class="btn btn-primary" id="btn-save">Guardar</button>
+                <button type="button" class="btn btn-secondary" id="btn-cancel">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+{% endblock %}
+
+{% block footer %}
+{% include 'public/footer.html' %}
+{% endblock %}
