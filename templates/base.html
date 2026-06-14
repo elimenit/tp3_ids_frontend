@@ -40,10 +40,8 @@
         {% if messages %}
             <script>
                 {% for category, info in messages %}
-                    // 1. Jinja escribe el texto JSON de forma segura y JS lo decodifica como objeto real
                     var msg = JSON.parse({{ info | tojson | safe }});
                     
-                    // 2. Ahora sí puedes acceder a las propiedades con la notación de punto
                     Swal.fire({
                         title: msg.title,
                         text: msg.text,

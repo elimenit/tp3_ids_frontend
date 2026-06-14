@@ -4,11 +4,12 @@
     </div>
     <div class="block-content">
         <ul class="panel-list">
-            {% if user %}
+            {% if user and not admin_user %}
             <li><button id="adminUser">Administrar usuario</button></li>
             {% endif %}
             {% if user and user.get('category') in ('admin', 'root') %}
             <li><a href="{{ url_for('admin_menus.show') }}">Panel de menús</a></li>
+            <li><a href="{{ url_for('admin_users.show') }}">Panel de Usuarios</a></li>
             {% endif %}
             {% if user %}
             <li><a href="{{ url_for('public_auth.logout') }}">Cerrar sesión</a></li>

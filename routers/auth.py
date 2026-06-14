@@ -1,23 +1,15 @@
 from constants import URL_PUBLIC_USERS_BASE, URL_LOGIN_PUBLIC
 from utils.helpers import make_request, make_cookie_response, flash_message
+from utils.templates import get_login_template, get_signup_template
 
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, request, redirect, url_for
 
 public_bp_auth = Blueprint('public_auth', __name__)
 
 @public_bp_auth.route("/signup", methods=['GET', 'POST'])
 def signup():
-    template = render_template("public/auth/signup.html",
-            form_title="Registrarse",
-            form_heading="¡Bienvenido!",
-            form_action=url_for('public_auth.signup'),
-            show_username=True,
-            show_confirm_password=True,
-            submit_label="Registrarse",
-    )
-
     if request.method == 'GET':
-        return template
+        return get_signup_template()
     
     data_form = {
         "name": request.form.get('name'),
@@ -39,21 +31,12 @@ def signup():
             data.get('message', 'Error desconocido al registrarse.'),
             data.get('description', '')
         )
-        return template
+        return get_signup_template()
     
 @public_bp_auth.route("/login", methods=['GET', 'POST'])
 def login():
-    template = render_template("public/auth/login.html",
-            form_title="Iniciar sesión",
-            form_heading="¡Hola de nuevo!",
-            form_action=url_for('public_auth.login'),
-            show_username=False,
-            show_confirm_password=False,
-            submit_label="Iniciar sesión",
-    )
-    
     if request.method == 'GET':
-        return template
+        return get_login_template()
     
     response = make_request(URL_LOGIN_PUBLIC, "POST", request.form)
 
@@ -69,7 +52,7 @@ def login():
             data.get('message', 'Error desconocido al iniciar sesión.'),
             data.get('description', '')
         )
-        return template
+        return get_login_template()
     
 @public_bp_auth.route("/logout", methods=['GET', 'POST'])
 def logout():

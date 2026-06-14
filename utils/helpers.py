@@ -89,3 +89,11 @@ def flash_message(
         "title": title,
         "text": description
     }), category)
+
+def default_flash(res: requests.Response):
+    """Utiliza la función flash_message pero le agrega un comportamiento predeterminado, recibiendo una response y manejando todo"""
+    data = res.json()
+    flash_message(
+        data.get('message', 'Error desconocido.'),
+        data.get('description', '')
+    )

@@ -116,7 +116,7 @@
     vertical-align: middle;
 }
 
-.dishes-table tr:hover td {
+.dishes-table tr:hover td:not(:has(.edit-btn)) {
     background: rgba(255, 255, 255, 0.025);
 }
 
