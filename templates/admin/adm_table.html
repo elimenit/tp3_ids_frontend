@@ -1,3 +1,22 @@
+{#
+  adm_table.html -> Tabla genérica para paneles admin (usuarios, reservas, menú).
+
+  Requiere:
+    title: str = Título del header.
+    cols: list[str] = Nombres de columna (mismo orden que row.cells).
+    rows: list[dict] = Cada fila: {"cells": [...], "data": {...}}.
+        -> cells = valores a mostrar. data = lo que va como data-* en el
+        -> botón de editar (usado por setupCrudModal en crud.js).
+    page, per_page, total_pages: ints = Para la paginación.
+
+  Opcional:
+    plus_label  str   Texto del botón "+ Agregar...". Si no se pasa, no se muestra el botón.
+
+  Columnas especiales (detectadas por nombre en cols):
+    'Estado': badge active/inactive
+    'Imagen': <img>
+    'Disponible': badge Disponible/No disponible
+#}
 <main class="admin-page">
     <div class="admin-header">
         <h1 class="admin-title">{{ title }}</h1>
@@ -17,8 +36,31 @@
             {% for row in rows or [] %}
             <tr>
                 {% for cell in row.cells %}
-                    {% if cell in ['active', 'inactive'] %}
-                        <td><span class="badge {{ 'badge-available' if cell == 'active' else 'badge-unavailable' }}">{{ cell }}</span></td>
+                    {% set col_name = cols[loop.index0] %}
+                    {% if col_name == 'Estado' %}
+                        {% if admin_user %}
+                            <td><span class="badge {{ 'badge-available' if cell == 'active' else 'badge-unavailable' }}">{{ cell }}</span></td>
+                        {% else %}
+                            {% if cell in ['Confirmed', 'Arrived'] %}
+                                {% set status_class = 'badge-available' %}
+                            {% elif cell == 'Pending' %}
+                                {% set status_class = 'badge-pending' %}
+                            {% else %}
+                                {% set status_class = 'badge-unavailable' %}
+                            {% endif %}
+                            <td><span class="badge {{ status_class }}">{{ cell }}</span></td>
+                        {% endif %}
+                    {% elif col_name == 'Imagen' %}
+                        <td>
+                            <img src="{{ cell }}" alt="" class="dish-thumb" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="dish-thumb-placeholder" style="display:none;">🍽️</div>
+                        </td>
+                    {% elif col_name == 'Disponible' %}
+                        <td>
+                            <span class="badge {{ 'badge-available' if cell else 'badge-unavailable' }}">
+                                {{ 'Disponible' if cell else 'No disponible' }}
+                            </span>
+                        </td>
                     {% else %}
                         <td>{{ cell }}</td>
                     {% endif %}

@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {# REGLA DE ORO: Siempre primero la herencia #}
+{% extends 'base.html' %}
 
 {% block title %} Reservar Mesa {% endblock %}
 
@@ -13,7 +13,6 @@
 
 {% block body %}
 <main class="page-content" style="justify-content: center; align-items: flex-start; margin-top: 5.5rem;">
-        {# COLUMNA IZQUIERDA: Grilla de Mesas #}
         {% if tables %}
         <div class="block tables-section">
             <div class="block-header">

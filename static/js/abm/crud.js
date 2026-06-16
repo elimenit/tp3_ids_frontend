@@ -3,7 +3,14 @@ import { parseDateTime } from "../utils.js";
 const fillForm = (fields, data, idKey, form, deleteForm, createUrl, updateUrlBase, toggleUrlBase) => {
     Object.entries(fields).forEach(([fieldId, dataKey]) => {
         const input = document.getElementById(fieldId);
-        if (input) input.value = data[dataKey] || '';
+        if (!input) return;
+
+        if (input.type === 'checkbox') {
+            // chequeo medio raro por formateo
+            input.checked = data[dataKey] === true || data[dataKey] === 'true' || data[dataKey] === '1';
+        } else {
+            input.value = data[dataKey] || '';
+        }
     });
 
     const id = data[idKey];
