@@ -5,7 +5,7 @@
         </div>
 
         <form id="form-principal" action="{{ url_for('public_reservations.create') }}" method="POST">
-            <div class="block-content">
+            <div class="block-content" style="overflow: auto;">
 
                 <div class="form-group">
                     <label for="fecha">Fecha</label>
@@ -25,7 +25,14 @@
 
                 <div class="form-group">
                     <label for="table_display">Mesa Seleccionada</label>
-                    <input type="text" id="table_display" name='table_display' {{ 'placeholder="Hacé click en una mesa disponible arriba" readonly' if not abm else 'required' }}>
+                    <input type="hidden" id="table_id" name="table_id">
+                    <input type="text" id="table_display" name="table_display"
+                        {% if not abm %}
+                            placeholder="Hacé click en una mesa disponible arriba" readonly
+                        {% else %}
+                            required
+                        {% endif %}
+                    >
                 </div>
 
                 <div class="form-group">

@@ -12,20 +12,18 @@
 {% endblock %}
 
 {% block body %}
-<main class="reservations-container">
-    <h1>Reservá tu mesa</h1>
-
-    <div class="reservations-layout">
-
+<main class="page-content" style="justify-content: center; align-items: flex-start; margin-top: 5.5rem;">
         {# COLUMNA IZQUIERDA: Grilla de Mesas #}
         {% if tables %}
-        <div class="tables-section">
-            <h2>
-                Mesas disponibles
-                {% if fecha and hora %} para el {{ fecha }} a las {{ hora }}:00 {% endif %}
-            </h2>
-
-            <div class="tables-grid">
+        <div class="block tables-section">
+            <div class="block-header">
+                <h2>
+                    Mesas disponibles
+                    {% if fecha and hora %} para el {{ fecha }} a las {{ hora }}:00 {% endif %}
+                </h2>
+            </div>
+            <div>
+            <div class="block-content tables-grid">
                 {% for mesa in tables %}
 
                 {% if mesa.estado == 'available' %}
@@ -56,15 +54,10 @@
 
                 {% endfor %}
             </div>
+            </div>
         </div>
         {% endif %}
 
         {% include 'reservations/reservations_form.html' %}
-
-    </div>
 </main>
-{% endblock %}
-
-{% block footer %}
-{% include 'public/footer.html' %}
 {% endblock %}

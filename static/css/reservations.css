@@ -1,44 +1,7 @@
-/* =============================================================================
-   CONTENEDOR PRINCIPAL
-   ============================================================================= */
-.reservations-container {
-    padding: 2rem;
-    max-width: 1200px;
-    margin: 100px auto 0 auto;
-    font-family: system-ui, -apple-system, sans-serif;
-}
-
-.reservations-container h1 {
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-}
-
-/* =============================================================================
-   LAYOUT DE DOS COLUMNAS
-   Izquierda: mesas    Derecha: formulario
-   ============================================================================= */
-.reservations-layout {
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    /* Izquierda ocupa todo el espacio disponible, derecha fija 420px */
-    gap: 3rem;
-    align-items: flex-start;
-}
-
-/* =============================================================================
-   COLUMNA IZQUIERDA: MESAS
-   ============================================================================= */
 .tables-section {
-    width: 100%;
+    max-width: 500px;
 }
 
-.tables-section h2 {
-    margin-bottom: 1.2rem;
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-/* Grilla de mesas: siempre 2 columnas */
 .tables-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -70,7 +33,6 @@
 
 /* Mesa disponible */
 .table-available {
-    background: #f4fbf6;
     border-color: rgb(221, 151, 85);
     cursor: pointer;
     color: #1b5e20;
@@ -84,7 +46,6 @@
 
 /* Mesa reservada */
 .table-reserved {
-    background: #fffbfa;
     border-color: #ef9a9a;
     color: #c62828;
     cursor: not-allowed;
@@ -93,7 +54,6 @@
 
 /* Mesa ocupada */
 .table-occupied {
-    background: #fafafa;
     border-color: #e0e0e0;
     color: #616161;
     cursor: not-allowed;
@@ -113,76 +73,15 @@
 }
 
 .status-available {
-    background: #e8f5e9;
     color: rgb(221, 151, 85);
 }
 
 .status-reserved {
-    background: #ffebee;
     color: #c62828;
 }
 
 .status-occupied {
-    background: #eeeeee;
     color: #616161;
-}
-
-/* =============================================================================
-   COLUMNA DERECHA: FORMULARIO STICKY
-   ============================================================================= */
-.open {
-    position: sticky;
-    top: 120px;
-    width: 100%;
-    background: #1e1e1e;
-    color: #ffffff;
-    border-radius: 14px;
-    padding: 1.75rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-}
-
-.block-header h2 {
-    margin-top: 0;
-    font-size: 1.4rem;
-    border-bottom: 1px solid #333;
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.25rem;
-}
-
-.block-content {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.form-group {
-    margin-bottom: 1.25rem;
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    font-size: 0.85rem;
-    margin-bottom: 6px;
-    color: #b3b3b3;
-    font-weight: 500;
-}
-
-.form-group input,
-.form-group select {
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #444;
-    background: #2a2a2a;
-    color: white;
-    font-size: 0.95rem;
-    transition: border-color 0.2s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: rgb(221, 151, 85);
 }
 
 .form-group input[readonly] {
@@ -192,30 +91,6 @@
     cursor: default;
 }
 
-.block-footer {
-    margin-top: 0.5rem;
-}
-
-.submit-btn {
-    width: 100%;
-    padding: 12px;
-    background: rgb(221, 151, 85);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.submit-btn:hover {
-    background: #43a047;
-}
-
-/* =============================================================================
-   MENSAJE CUANDO NO HAY MESAS TODAVIA
-   ============================================================================= */
 .no-tables-msg {
     background: #2a2a2a;
     border-radius: 12px;
@@ -230,9 +105,6 @@
     font-size: 0.95rem;
 }
 
-/* =============================================================================
-   ADMIN
-   ============================================================================= */
 .back-link {
     display: inline-block;
     margin-bottom: 1rem;
@@ -250,8 +122,6 @@
     gap: 1rem;
 }
 
-
-/* Pantallas de confirmación y cancelación */
 .confirmation-container {
     max-width: 500px;
     margin: 120px auto 0 auto;
@@ -298,11 +168,6 @@
     text-align: center;
 }
 
-
-
-/* =============================================================================
-   RESPONSIVE
-   ============================================================================= */
 @media (max-width: 850px) {
     .reservations-layout {
         grid-template-columns: 1fr;
