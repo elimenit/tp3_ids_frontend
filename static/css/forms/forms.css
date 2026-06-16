@@ -1,3 +1,10 @@
+.block.form-block {
+    min-width: 400px;
+    max-height: 85vh;
+    animation: deslizarArriba 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    overflow-y: auto;
+}
+
 input:disabled {
     background-color: #f0f0f015;
     color: #999999;

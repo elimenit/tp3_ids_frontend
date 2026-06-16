@@ -1,5 +1,5 @@
 <div class="{{ 'fixed-block' if abm else 'open' }}" data-openby="adminUser">
-    <div class="block">
+    <div class="block form-block">
         <div class="block-header">
             <h2>Nueva reservación</h2>
         </div>
@@ -25,14 +25,12 @@
 
                 <div class="form-group">
                     <label for="table_display">Mesa Seleccionada</label>
-                    <input type="text" id="table_display" placeholder="Hacé click en una mesa disponible arriba"
-                        readonly>
-                    <input type="hidden" id="table_id" name="table_id" required>
+                    <input type="text" id="table_display" name='table_display' {{ 'placeholder="Hacé click en una mesa disponible arriba" readonly' if not abm else 'required' }}>
                 </div>
 
                 <div class="form-group">
-                    <label for="people">Cantidad de personas</label>
-                    <input type="number" id="people" name="people" min="1" max="20" required>
+                    <label for="people_amount">Cantidad de personas</label>
+                    <input type="number" id="people_amount" name="people_amount" min="1" max="20" required>
                 </div>
 
                 {% if abm %}
@@ -47,6 +45,7 @@
                             <option value="Pending">Pendiente</option>
                             <option value="Confirmed">Confirmada</option>
                             <option value="Cancelled">Cancelada</option>
+                            <option value="Arrived">Llegada</option>
                         </select>
                     </div>
                 {% endif %}

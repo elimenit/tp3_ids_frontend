@@ -1,7 +1,9 @@
 <main class="admin-page">
     <div class="admin-header">
         <h1 class="admin-title">{{ title }}</h1>
+        {% if plus_label %}
         <button id="add-btn" class="btn btn-primary">+ {{ plus_label }}</button>
+        {% endif %}
     </div>
     <table id="dishes-table" class="dishes-table">
         <thead>

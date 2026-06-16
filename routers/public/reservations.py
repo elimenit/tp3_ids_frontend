@@ -18,10 +18,10 @@ def new():
     user = get_current_user()
 
     return render_template('reservations/new.html',
-                           tables=tables_data,
-                           fecha="",
-                           hora="",
-                           user=user)
+        tables=tables_data,
+        fecha="",
+        hora="",
+        user=user)
 
 @public_bp_reservations.route("/", methods=["POST"])
 def create():
