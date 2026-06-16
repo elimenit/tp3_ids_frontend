@@ -39,6 +39,13 @@ function renderCard(dish) {
             <h2 class="dish-name">${dish.name}</h2>
             <p class="dish-description">${dish.description || ''}</p>
             <span class="dish-price">${formatPrice(dish.price)}</span>
+            
+            <button class="add-to-cart-btn" 
+                data-id="${dish.id || dish.name}" 
+                data-name="${dish.name}" 
+                data-price="${dish.price}">
+                Agregar al carrito
+            </button>
         </div>
     `;
     return article;
@@ -119,11 +126,17 @@ async function fetchDishes(category) {
     }
 }
 
-// --- Init ---
+// --- Estado Global del Carrito ---
+let cart = [];
+
+// --- Init y Lógica de Eventos ---
 
 document.addEventListener('DOMContentLoaded', async () => {
+    
+    // ==========================================
+    // 1. CARGAR EL MENÚ AL ENTRAR A LA PÁGINA
+    // ==========================================
     showLoading();
-
     try {
         const res = await fetch('/menu/dishes');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -134,5 +147,144 @@ document.addEventListener('DOMContentLoaded', async () => {
         showError('No se pudo cargar el menú. Verificá que el servidor esté activo.');
     } finally {
         hideLoading();
+    }
+
+    // ==========================================
+    // 2. LÓGICA DEL CARRITO DE COMPRAS
+    // ==========================================
+    const cartFloatBtn = document.getElementById('cart-float-btn');
+    const cartModal = document.getElementById('cart-modal');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const btnPay = document.getElementById('btn-pay');
+    
+    const cartItemsList = document.getElementById('cart-items-list');
+    const emptyCartMsg = document.getElementById('empty-cart-msg');
+    const cartTotalContainer = document.getElementById('cart-total-container');
+    const cartTotalPrice = document.getElementById('cart-total-price');
+
+    // Función para mostrar/ocultar el modal
+    function toggleCartModal() {
+        if(cartModal) cartModal.hidden = !cartModal.hidden;
+    }
+
+    if(cartFloatBtn) cartFloatBtn.addEventListener('click', toggleCartModal);
+    if(closeCartBtn) closeCartBtn.addEventListener('click', toggleCartModal);
+    if(cartModal) {
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) toggleCartModal();
+        });
+    }
+
+    // Función para actualizar el HTML del carrito
+    function updateCartUI() {
+        cartItemsList.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            emptyCartMsg.hidden = false;
+            cartTotalContainer.hidden = true;
+        } else {
+            emptyCartMsg.hidden = true;
+            cartTotalContainer.hidden = false;
+
+            cart.forEach((item, index) => {
+                total += item.price;
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <div class="cart-item-info">
+                        <span class="cart-item-title">${item.name}</span>
+                        <span class="cart-item-price">${formatPrice(item.price)}</span>
+                    </div>
+                    <button class="remove-item-btn" data-index="${index}">&times;</button>
+                `;
+                cartItemsList.appendChild(li);
+            });
+        }
+
+        cartTotalPrice.textContent = formatPrice(total);
+    }
+
+    // Escuchar clics en "Agregar al carrito" (Delegación de eventos en el grid)
+    const menuGrid = document.getElementById('menu-grid');
+    if(menuGrid) {
+        menuGrid.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart-btn')) {
+                const btn = e.target;
+                const item = {
+                    id: btn.getAttribute('data-id'),
+                    name: btn.getAttribute('data-name'),
+                    price: parseFloat(btn.getAttribute('data-price'))
+                };
+                
+                cart.push(item);
+                updateCartUI();
+                
+                // Feedback visual en el botón
+                const originalText = btn.textContent;
+                btn.textContent = "¡Agregado!";
+                btn.style.backgroundColor = "#dd9755";
+                btn.style.color = "#111";
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.backgroundColor = "transparent";
+                    btn.style.color = "#dd9755";
+                }, 1000);
+            }
+        });
+    }
+
+    // Eliminar items del carrito
+    if(cartItemsList) {
+        cartItemsList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-item-btn')) {
+                const index = e.target.getAttribute('data-index');
+                cart.splice(index, 1);
+                updateCartUI();
+            }
+        });
+    }
+
+    // Simulación del botón Pagar
+    if(btnPay) {
+        btnPay.addEventListener('click', () => {
+            if (cart.length === 0) {
+                if (typeof Swal !== 'undefined') {
+                    Swal.fire({
+                        title: 'Carrito vacío',
+                        text: 'Agrega algunos platos antes de pagar.',
+                        icon: 'warning',
+                        confirmButtonText: 'Aceptar',
+                        confirmButtonColor: '#dd9755',
+                        background: 'rgb(43, 43, 43)',
+                        color: '#ffffff'
+                    });
+                } else {
+                    alert("Tu carrito está vacío.");
+                }
+                return;
+            }
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: 'Procesando pago...',
+                    text: `Pagando un total de ${cartTotalPrice.textContent}. ¡Esta es una simulación!`,
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#dd9755',
+                    background: 'rgb(43, 43, 43)',
+                    color: '#ffffff'
+                }).then(() => {
+                    cart = []; // Vacía el carrito
+                    updateCartUI();
+                    toggleCartModal(); // Cierra el modal
+                });
+            } else {
+                alert(`Simulación de pago completada por ${cartTotalPrice.textContent}`);
+                cart = [];
+                updateCartUI();
+                toggleCartModal();
+            }
+        });
     }
 });
