@@ -1,5 +1,6 @@
-from constants import URL_PUBLIC_USERS_ME
+from constants import URL_PUBLIC_USERS_ME, URL_ADMIN_USERS
 from utils.helpers import flash_message, make_request
+from utils.admin import get_all_admin
 
 from flask import Response, request, redirect, url_for
 
@@ -40,3 +41,6 @@ def validate_admin_user() -> tuple[dict, Response | str]:
         return {}, redirect(url_for('main')) # type: ignore
     
     return user, token
+
+def get_all_users(token: str) -> tuple[list[dict], int, int, int]:
+    return get_all_admin(token, URL_ADMIN_USERS)

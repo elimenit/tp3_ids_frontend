@@ -1,5 +1,5 @@
 from constants import URL_ADMIN_USERS
-from services.public.users import validate_admin_user
+from services.public.users import validate_admin_user, get_all_users
 from utils.helpers import flash_message, make_request, default_flash
 
 from flask import Blueprint, render_template, request, redirect, url_for
@@ -12,31 +12,29 @@ def show():
     if not user:
         return token
 
-    page = request.args.get("page", 1, type=int)
-    per_page = request.args.get("per_page", 10, type=int)
-    offset = (page - 1) * per_page
-
-    adm_url = f"{URL_ADMIN_USERS}?_limit={per_page}&_offset={offset}"
-    res = make_request(adm_url, 'GET', token=token) # type: ignore
-
-    if res.status_code == 200:
-        data = res.json()
-        users = data['data']
-        count = data['count']
-    else:
-        default_flash(res)
-        users = []
-        count = 0
-
-    total_pages = (count + per_page - 1) // per_page
+    users, page, per_page, total_pages = get_all_users(token) # type: ignore
 
     cols = ['ID', 'Nombre', 'Email', 'Categoria', 'Estado']
-    rows = [[u["id"], u["name"], u["email"], u["category"], u["status"]] for u in users]
+    rows = [
+    {
+        "cells": [u["id"], u["name"], u["email"], u["category"], u["status"]],
+        "data": {
+            "id": u["id"],
+            "name": u["name"],
+            "email": u["email"],
+            "category": u["category"],
+        }
+    }
+    for u in users
+    ]
 
     return render_template('admin/users.html',
         user=user,
         cols=cols,
         rows=rows,
+        page_title="Administrar usuarios",
+        title="Usuarios",
+        plus_label="Agregar usuario",
         admin_user=True,
         page=page,
         per_page=per_page,
@@ -53,7 +51,7 @@ def create_user():
         'name': request.form.get('name'),
         'email': request.form.get('email'),
         'password': request.form.get('password'),
-        'category': request.form.get('color'),
+        'category': request.form.get('category'),
     }
 
     res = make_request(URL_ADMIN_USERS, 'POST', data=payload, token=token) # type: ignore

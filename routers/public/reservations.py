@@ -9,8 +9,6 @@ from services.public.reservations import (
     update_reservation_status,
 )
 
-
-
 public_bp_reservations = Blueprint('public_reservations', __name__)
 
 @public_bp_reservations.route("/", methods=["GET"])
@@ -19,7 +17,7 @@ def new():
     tables_data = get_tables(token)
     user = get_current_user()
 
-    return render_template('public/reservations/new.html',
+    return render_template('reservations/new.html',
                            tables=tables_data,
                            fecha="",
                            hora="",
@@ -64,7 +62,7 @@ def create():
         )
         mesas_libres = error.get("mesas_libres", [])
         return render_template(
-            'public/reservations/new.html',
+            'reservations/new.html',
             tables=mesas_libres,
             fecha=fecha,
             hora=hora,
@@ -76,7 +74,7 @@ def create():
         error.get("mensaje", "Ocurrió un error inesperado.") if error else ""
     )
     return render_template(
-        'public/reservations/new.html',
+        'reservations/new.html',
         tables=[],
         fecha=fecha,
         hora=hora,
@@ -102,7 +100,7 @@ def confirmacion(id):
         return redirect(url_for('public_reservations.new'))
 
     return render_template(
-        'public/reservations/confirmacion.html',
+        'reservations/confirmacion.html',
         reserva=reserva,
         user=get_current_user(),
     )
@@ -124,7 +122,7 @@ def cancelar():
     ok, mensaje = cancel_by_token(qr_token)
 
     return render_template(
-        'public/reservations/cancelacion.html',
+        'reservations/cancelacion.html',
         ok=ok,
         mensaje=mensaje,
         user=get_current_user(),
