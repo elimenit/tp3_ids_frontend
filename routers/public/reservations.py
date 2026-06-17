@@ -15,6 +15,12 @@ public_bp_reservations = Blueprint('public_reservations', __name__)
 
 @public_bp_reservations.route("/", methods=["GET"])
 def new():
+    user = get_current_user()
+
+    if user is None:
+        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
+        return redirect(url_for('public_auth.login'))
+
     token = request.cookies.get('session_token')
     tables_data = get_tables(token)
     user = get_current_user()
@@ -90,10 +96,12 @@ def confirmacion(id):
     Pantalla de confirmación después de crear la reservación.
     GET /reservations/5/confirmacion
     """
-    token = request.cookies.get('session_token')
+    user = get_current_user()
 
-    if not token:
+    if user is None:
+        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
         return redirect(url_for('public_auth.login'))
+
 
     reserva = get_reservation(token, id)
 

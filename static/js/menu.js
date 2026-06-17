@@ -1,20 +1,4 @@
-// --- UI helpers ---
-
-function showLoading() {
-    document.getElementById('menu-loading').hidden = false;
-    document.getElementById('menu-grid').hidden = true;
-    document.getElementById('menu-error').hidden = true;
-}
-
-function hideLoading() {
-    document.getElementById('menu-loading').hidden = true;
-}
-
-function showError(msg) {
-    document.getElementById('menu-error').textContent = msg;
-    document.getElementById('menu-error').hidden = false;
-}
-
+// --- Helpers ---
 function formatPrice(price) {
     return Number(price).toLocaleString('es-AR', {
         style: 'currency',
@@ -23,130 +7,40 @@ function formatPrice(price) {
     });
 }
 
-// --- Renderizado ---
-
-function renderCard(dish) {
-    const article = document.createElement('article');
-    article.className = 'dish-card';
-
-    const imageHtml = dish.image_url
-        ? `<img src="${dish.image_url}" alt="${dish.name}" loading="lazy">`
-        : `<div class="dish-img-placeholder">🍽</div>`;
-
-    article.innerHTML = `
-        ${imageHtml}
-        <div class="dish-card-body">
-            <h2 class="dish-name">${dish.name}</h2>
-            <p class="dish-description">${dish.description || ''}</p>
-            <span class="dish-price">${formatPrice(dish.price)}</span>
-            
-            <button class="add-to-cart-btn" 
-                data-id="${dish.id || dish.name}" 
-                data-name="${dish.name}" 
-                data-price="${dish.price}">
-                Agregar al carrito
-            </button>
-        </div>
-    `;
-    return article;
-}
-
-function renderCards(dishes) {
-    const grid = document.getElementById('menu-grid');
-    grid.innerHTML = '';
-
-    if (dishes.length === 0) {
-        grid.innerHTML = '<p class="empty-message">No hay platos en esta categoría.</p>';
-    } else {
-        dishes.forEach(dish => grid.appendChild(renderCard(dish)));
-    }
-
-    grid.hidden = false;
-}
-
-function buildTabs(dishes) {
-    const tabsContainer = document.getElementById('menu-tabs');
-    const categories = [...new Set(dishes.map(d => d.category))].sort();
-
-    tabsContainer.innerHTML = '';
-
-    const allBtn = document.createElement('button');
-    allBtn.className = 'tab-btn active';
-    allBtn.dataset.category = 'all';
-    allBtn.setAttribute('role', 'tab');
-    allBtn.setAttribute('aria-selected', 'true');
-    allBtn.textContent = 'Todos';
-    tabsContainer.appendChild(allBtn);
-
-    categories.forEach(cat => {
-        const btn = document.createElement('button');
-        btn.className = 'tab-btn';
-        btn.dataset.category = cat;
-        btn.setAttribute('role', 'tab');
-        btn.setAttribute('aria-selected', 'false');
-        btn.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-        tabsContainer.appendChild(btn);
-    });
-
-    tabsContainer.addEventListener('click', e => {
-        const btn = e.target.closest('.tab-btn');
-        if (!btn) return;
-        setActiveTab(btn);
-        fetchDishes(btn.dataset.category);
-    });
-}
-
-function setActiveTab(clickedBtn) {
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-        btn.setAttribute('aria-selected', 'false');
-    });
-    clickedBtn.classList.add('active');
-    clickedBtn.setAttribute('aria-selected', 'true');
-}
-
-// --- Fetch ---
-
-async function fetchDishes(category) {
-    showLoading();
-
-    const url = category === 'all'
-        ? '/menu/dishes'
-        : `/menu/dishes?category=${category}`;
-
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const dishes = await res.json();
-        renderCards(dishes);
-    } catch {
-        showError('No se pudo cargar el menú. Verificá que el servidor esté activo.');
-    } finally {
-        hideLoading();
-    }
-}
-
 // --- Estado Global del Carrito ---
 let cart = [];
 
 // --- Init y Lógica de Eventos ---
-
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     
     // ==========================================
-    // 1. CARGAR EL MENÚ AL ENTRAR A LA PÁGINA
+    // 1. LÓGICA DE PESTAÑAS (TABS) Y FILTRADO
     // ==========================================
-    showLoading();
-    try {
-        const res = await fetch('/menu/dishes');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const dishes = await res.json();
-        buildTabs(dishes);
-        renderCards(dishes);
-    } catch {
-        showError('No se pudo cargar el menú. Verificá que el servidor esté activo.');
-    } finally {
-        hideLoading();
+    const menuTabs = document.getElementById('menu-tabs');
+    
+    if (menuTabs) {
+        menuTabs.addEventListener('click', (e) => {
+            const btn = e.target.closest('.tab-btn');
+            if (!btn) return;
+           
+            // Cambiar clase activa
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
+        
+            // Filtrar las tarjetas
+            const category = btn.dataset.category;
+            document.querySelectorAll('.dish-card').forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
     }
 
     // ==========================================
@@ -161,8 +55,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const emptyCartMsg = document.getElementById('empty-cart-msg');
     const cartTotalContainer = document.getElementById('cart-total-container');
     const cartTotalPrice = document.getElementById('cart-total-price');
+    const menuGrid = document.getElementById('menu-grid');
 
-    // Función para mostrar/ocultar el modal
     function toggleCartModal() {
         if(cartModal) cartModal.hidden = !cartModal.hidden;
     }
@@ -175,7 +69,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Función para actualizar el HTML del carrito
     function updateCartUI() {
         cartItemsList.innerHTML = '';
         let total = 0;
@@ -205,8 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         cartTotalPrice.textContent = formatPrice(total);
     }
 
-    // Escuchar clics en "Agregar al carrito" (Delegación de eventos en el grid)
-    const menuGrid = document.getElementById('menu-grid');
+    // Agregar al carrito (escuchando el grid)
     if(menuGrid) {
         menuGrid.addEventListener('click', (e) => {
             if (e.target.classList.contains('add-to-cart-btn')) {
@@ -220,7 +112,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 cart.push(item);
                 updateCartUI();
                 
-                // Feedback visual en el botón
+                // Feedback visual
                 const originalText = btn.textContent;
                 btn.textContent = "¡Agregado!";
                 btn.style.backgroundColor = "#dd9755";
@@ -234,7 +126,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Eliminar items del carrito
+    // Eliminar del carrito
     if(cartItemsList) {
         cartItemsList.addEventListener('click', (e) => {
             if (e.target.classList.contains('remove-item-btn')) {
@@ -275,9 +167,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     background: 'rgb(43, 43, 43)',
                     color: '#ffffff'
                 }).then(() => {
-                    cart = []; // Vacía el carrito
+                    cart = [];
                     updateCartUI();
-                    toggleCartModal(); // Cierra el modal
+                    toggleCartModal();
                 });
             } else {
                 alert(`Simulación de pago completada por ${cartTotalPrice.textContent}`);
@@ -285,6 +177,115 @@ document.addEventListener('DOMContentLoaded', async () => {
                 updateCartUI();
                 toggleCartModal();
             }
+        });
+    }
+});
+//Cuenta los repetidos en el carrito
+function buildDeliveryPayload() {
+    const quantities = {};
+
+    cart.forEach(item => {
+        const id = Number(item.id);
+
+        if (!quantities[id]) {
+            quantities[id] = 0;
+        }
+
+        quantities[id]++;
+    });
+
+    return {
+        list_menus: Object.entries(quantities).map(
+            ([id, quantity]) => [Number(id), quantity]
+        ),
+        address: "direccion_usuario",
+        date: new Date().toISOString()
+    };
+}
+
+const deliveryBtn = document.getElementById("btn-delivery");
+
+deliveryBtn?.addEventListener("click", async (e) => {
+    e.preventDefault();
+
+    if (cart.length === 0) {
+        Swal.fire({
+            title: 'Carrito vacío',
+            text: 'Agrega algunos platos antes de solicitar un delivery.',
+            icon: 'warning',
+            confirmButtonColor: '#dd9755',
+            background: 'rgb(43, 43, 43)',
+            color: '#ffffff'
+        });
+        return;
+    }
+
+    // Agrupar productos repetidos
+    const groupedMenus = {};
+
+    cart.forEach(item => {
+        const id = Number(item.id);
+
+        if (!groupedMenus[id]) {
+            groupedMenus[id] = 0;
+        }
+
+        groupedMenus[id] += 1;
+    });
+
+    const deliveryData = {
+        list_menus: Object.entries(groupedMenus).map(
+            ([id, quantity]) => [Number(id), quantity]
+        ),
+        address: "direccion_usuario",
+        date: new Date().toISOString()
+    };
+
+    try {
+        const response = await fetch("/deliveries", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(deliveryData)
+        });
+
+        // 👇 leer SOLO UNA VEZ como texto primero
+        const text = await response.text();
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            throw new Error("Respuesta del servidor no es JSON válido");
+        }
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al crear delivery");
+        }
+
+        Swal.fire({
+            title: 'Delivery creado',
+            text: data.message || 'Tu pedido fue enviado correctamente.',
+            icon: 'success',
+            confirmButtonColor: '#dd9755',
+            background: 'rgb(43, 43, 43)',
+            color: '#ffffff'
+        }).then(() => {
+            cart = [];
+            updateCartUI();
+            toggleCartModal();
+            window.location.href = "/deliveries";
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        Swal.fire({
+            title: 'Error',
+            text: error.message,
+            icon: 'error'
         });
     }
 });
