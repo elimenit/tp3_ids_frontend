@@ -7,13 +7,13 @@
     width: 100%;
     height: 4.5rem;
     display: flex;
-    flex-direction: row; /* Horizontal estricto */
+    flex-direction: row;
     align-items: center;
-    justify-content: space-between; /* Distribuye: Logo izquierda, Menú centro, Botón derecha */
+    justify-content: space-between; 
     background-color: rgb(32, 31, 31);
     box-shadow: 0 2px 16px rgb(3, 3, 3);
     padding: 0 2rem;
-    box-sizing: border-box; /* Evita que el padding rompa el ancho total */
+    box-sizing: border-box;
     transition: transform 0.3s ease;
 }
 
@@ -21,15 +21,14 @@
     transform: translateY(-120%);
 }
 
-/* Lista de enlaces: Horizontal y flexible */
 .navbar ul {
     list-style: none;
     display: flex;
-    flex-direction: row; /* Asegura que los links vayan de izquierda a derecha */
+    flex-direction: row; 
     align-items: center;
-    justify-content: center; /* Centra los links en el espacio disponible */
-    flex-grow: 1; /* Ocupa el espacio del medio de forma dinámica */
-    gap: 1rem; /* Espaciado perfecto entre botones sin usar porcentajes rígidos */
+    justify-content: center; 
+    flex-grow: 1;
+    gap: 1rem;
     margin: 0;
     padding: 0;
 }
@@ -38,7 +37,7 @@
 .navbar ul li {
     display: flex;
     align-items: center;
-    white-space: nowrap; /* Impide que el texto se parta en dos líneas verticalmente */
+    white-space: nowrap; 
 }
 
 /* Botones de navegación */
@@ -75,7 +74,6 @@
     transform: scaleX(1);
 }
 
-/* Logo */
 .logo-link {
     display: flex;
     align-items: center;
@@ -83,11 +81,9 @@
 }
 
 .logo-link img {
-    height: 2.8rem; /* Controla el alto para que no deforme la barra */
+    height: 2.8rem; 
     width: auto;
 }
-
-/* Botón de configuración (SVG) */
 .config-btn {
     background: none;
     border: none;
@@ -104,13 +100,6 @@
     transform: rotate(45deg); /* Un toque extra para el engranaje */
 }
 
----
-
-### Ajuste Responsivo Inteligente (Sigue siendo Horizontal)
-
-Como tenés bastantes elementos en el menú (especialmente cuando entra el Admin), si achicás la pantalla a tamaño celular no te va a entrar todo estirado. En lugar de volverlo vertical, esta regla **achica las fuentes y los espacios dinámicamente** para que siga entrando de forma horizontal en pantallas medianas y chicas:
-
-```css
 @media (max-width: 1024px) {
     .navbar {
         padding: 0 1rem;
