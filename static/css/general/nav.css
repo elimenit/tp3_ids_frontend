@@ -1,4 +1,4 @@
-/* Estilos para la barra de navegación */
+/* Contenedor principal: Todo en una sola línea horizontal */
 .navbar {
     position: fixed;
     top: 0;
@@ -7,9 +7,13 @@
     width: 100%;
     height: 4.5rem;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: space-between; 
     background-color: rgb(32, 31, 31);
     box-shadow: 0 2px 16px rgb(3, 3, 3);
+    padding: 0 2rem;
+    box-sizing: border-box;
     transition: transform 0.3s ease;
 }
 
@@ -20,94 +24,100 @@
 .navbar ul {
     list-style: none;
     display: flex;
-    align-items: stretch;
-    height: 100%;
-    width: 40%;
-    margin-left: auto;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center; 
+    flex-grow: 1;
+    gap: 1rem;
+    margin: 0;
     padding: 0;
 }
 
+/* Items de la lista */
 .navbar ul li {
     display: flex;
     align-items: center;
-    height: 100%;
-    flex: 1;
+    white-space: nowrap; 
 }
 
-/* Botones */
+/* Botones de navegación */
 .navbar a:not(.logo-link) {
     position: relative;
-    color: rgba(255, 255, 255, 0.493);
-    transition: color 0.3s ease;
+    color: rgba(255, 255, 255, 0.5);
     text-decoration: none;
-    font-size: 1.2rem;
-    height: 100%;
-    width: 100%;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
     display: flex;
-    text-align: center;
     align-items: center;
-    justify-content: center;
-    padding: 0 1rem;
+    transition: color 0.3s ease;
 }
 
-/* Efecto hover */
-.navbar a:not(.logo-link)::after, 
-.panel-list a::after, 
-.panel-list button::after,
-.panel-list button.active::after,
-.panel-list a.active::after {
+.navbar a:not(.logo-link):hover {
+    color: rgb(255, 255, 255);
+    text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.2);
+}
+
+/* Efecto de línea inferior animada */
+.navbar a:not(.logo-link)::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -5px;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: rgba(95, 95, 95, 0.164);
-    border-bottom: 2px solid rgb(221, 151, 85);
+    height: 2px;
+    background: rgb(221, 151, 85);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
 
-.navbar a:not(.logo-link):hover::after, 
-.panel-list a:hover::after, 
-.panel-list button:hover::after,
-.panel-list button.active::after,
-.panel-list a.active::after {
-    background-color: rgba(124, 124, 124, 0.226);
+.navbar a:not(.logo-link):hover::after {
     transform: scaleX(1);
 }
 
-/* Efecto hover para los panels */
-.panel-list a::after, 
-.panel-list button::after,
-.panel-list button.active::after,
-.panel-list a.active::after {
-    background: 0;
-    transform-origin: right;
-}
-
-.panel-list a:hover::after, 
-.panel-list button:hover::after,
-.panel-list button.active::after,
-.panel-list a.active::after {
-    background: 0;
-    transform-origin: left;
-}
-
-
-.navbar a:not(.logo-link):hover {
-    color: rgb(255, 255, 255);
-    text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.178);
-}
-
-/* Logo */
 .logo-link {
+    display: flex;
+    align-items: center;
     height: 100%;
-    padding: 8px 1rem;
-    box-sizing: border-box;
 }
 
 .logo-link img {
+    height: 2.8rem; 
     width: auto;
-    height: 100%;
+}
+.config-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.config-btn:hover {
+    transform: rotate(45deg); /* Un toque extra para el engranaje */
+}
+
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 0 1rem;
+    }
+    .navbar ul {
+        gap: 0.3rem; /* Reduce el espacio entre botones */
+    }
+    .navbar a:not(.logo-link) {
+        font-size: 0.9rem; /* Letra un poco más chica para que quepa */
+        padding: 0.5rem 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Si la pantalla es un celular mini, permite un scroll horizontal sutil solo en los links */
+    .navbar ul {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
+    }
 }
