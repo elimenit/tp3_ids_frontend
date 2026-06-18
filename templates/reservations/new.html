@@ -30,9 +30,6 @@
                     onclick="elegirMesa(this)">
                     <h3>Mesa {{ mesa.table_number }}</h3>
                     <p>{{ mesa.capacity }} personas</p>
-                    {% if mesa.price > 0 %}
-                    <p>${{ mesa.price }}</p>
-                    {% endif %}
                     <span class="table-status status-available">Disponible</span>
                 </div>
 
