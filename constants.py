@@ -6,9 +6,8 @@ load_dotenv()
 URL_API = os.getenv('URL_API')
 URL_PUBLIC_USERS_BASE = f"{URL_API}/public/users/"
 URL_PUBLIC_USERS_ME = f"{URL_API}/public/users/me"
-URL_LOGIN_PUBLIC = f"{URL_API}/public/login"
-URL_DELIVERIES = f"{URL_API}/public/deliveries/"
 URL_ADMIN_USERS = f"{URL_API}/admin/users/"
+URL_LOGIN_PUBLIC = f"{URL_API}/public/login"
 
 URL_RESERVATIONS        = f"{URL_API}/public/reservations/"
 URL_RESERVATIONS_TABLES = f"{URL_API}/public/reservations/tables"
