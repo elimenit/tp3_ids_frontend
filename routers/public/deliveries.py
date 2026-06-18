@@ -1,10 +1,11 @@
-from services.public.deliveries import get_deliveries_user, get_delivery_user, create_delivery
+from services.public.deliveries import get_deliveries_user, get_delivery_user
 from utils.helpers import flash_message, get_current_user
-from flask import Blueprint, request, render_template, redirect, url_for, jsonify
+
+from flask import Blueprint, request, render_template, redirect, url_for
 
 public_bp_deliveries = Blueprint('public_deliveries', __name__)
 
-@public_bp_deliveries.route(rule="/", methods=["GET"])
+@public_bp_deliveries.route(rule="/", methods=["GET", 'POST'])
 def show():
     token = request.cookies.get('session_token')
     if not token:
@@ -12,7 +13,9 @@ def show():
         return redirect(url_for('public_auth.login'))
     
     headers = request.headers 
-    
+    if request.method == 'POST':
+        pass
+
     deliveries = get_deliveries_user(token, headers)
     if deliveries is None:
         flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
@@ -40,21 +43,3 @@ def take_delivery(delivery_id: int):
           
     user = get_current_user()
     return render_template('public/delivery/delivery.html', delivery=delivery, user=user)
-
-@public_bp_deliveries.route("/", methods=["POST"])
-def create():
-    body = request.get_json()
-    headers = request.headers
-    token = request.cookies.get('session_token')
-    
-    if not token:
-        return jsonify({
-            "message": "No autenticado"
-        }), 401
-
-    if not body:
-        return None
-    status_response = create_delivery(token, body, headers)
-    return jsonify({
-        "message": "Delivery creado correctamente"
-    }), 201
