@@ -1,9 +1,3 @@
-# =============================================================================
-# services/public/reservations.py  (FRONTEND)
-# Se encarga de hablar con el backend usando make_request.
-# El router llama a estas funciones y renderiza con los datos que devuelven.
-# =============================================================================
-
 from constants import (
     URL_RESERVATIONS,
     URL_RESERVATIONS_TABLES,
@@ -11,7 +5,9 @@ from constants import (
     URL_ADMIN_RESERVATIONS,
 )
 from utils.helpers import make_request, flash_message
+from utils.admin import get_all_admin
 
+from flask import request
 
 def get_tables(token, fecha=None, hora=None):
     """
@@ -91,12 +87,8 @@ def cancel_by_token(qr_token):
     return False, data.get("error", "No se pudo cancelar")
 
 
-def get_all_reservations(token):
-    response = make_request(URL_ADMIN_RESERVATIONS, "GET", token=token)
-    if response.status_code == 200:
-        return response.json()
-    return None
-
+def get_all_reservations(token: str) -> tuple[list[dict], int, int, int]:
+    return get_all_admin(token, URL_ADMIN_RESERVATIONS)
 
 def update_reservation_status(token, reservation_id, new_status):
     """

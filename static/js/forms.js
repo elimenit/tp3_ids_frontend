@@ -29,13 +29,17 @@ const alertElimination = () => {
     deleteButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            showAlert(
-                'Confirmación', 
-                '¿Estás seguro de que deseas eliminar este usuario?', 
-                'warning').then((result) => {   
+
+            const isAdmin = button.dataset.admin === 'true';
+
+            const text = isAdmin
+                ? '¿Estás seguro de que deseas actualizar el estado de este usuario?'
+                : '¿Estás seguro de que deseas eliminar este usuario?';
+
+            showAlert('Confirmación', text, 'warning').then((result) => {
                 if (result.isConfirmed) {
-                const form = document.getElementById(button.dataset.formid);
-                    if (form) { 
+                    const form = document.getElementById(button.dataset.formid);
+                    if (form) {
                         form.submit();
                     }
                 }
