@@ -3,7 +3,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
-<script type="module" src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/menu.js') }}"></script>
 {% endblock %}
 
 {% block header %}
