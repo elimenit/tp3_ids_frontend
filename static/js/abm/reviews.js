@@ -1,4 +1,4 @@
-import { setupCrudModal } from './abm/crud.js';
+import { setupCrudModal } from './crud.js';
 
 const fields = {
     reservation_id: 'reservation_id',
@@ -34,14 +34,12 @@ document.querySelectorAll('.star-btn').forEach(btn => {
     btn.addEventListener('mouseleave', () => setStars(selectedStars));
 });
 
-// Al abrir para editar, sincronizar visual de estrellas y ocultar el selector de reserva
+// Al abrir para editar: pintar estrellas y ocultar selector de reserva
 document.querySelectorAll('.edit-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         setStars(Number(btn.dataset.stars));
         if (reservationGroup) reservationGroup.hidden = true;
     });
 });
-
-
 
 
