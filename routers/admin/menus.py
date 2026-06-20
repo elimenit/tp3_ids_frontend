@@ -53,6 +53,8 @@ def create():
         return token
 
     data = request.form.to_dict()
+    if 'category' in data:
+        data['category'] = data['category'].strip().lower()
     success, response, status = create_menu(token, data) # type: ignore
 
     if success:
@@ -73,6 +75,8 @@ def update(menu_id: int):
         return token
 
     data = request.form.to_dict()
+    if 'category' in data:
+        data['category'] = data['category'].strip().lower()
     success, response, status = update_menu(token, menu_id, data) # type: ignore
 
     if success:
