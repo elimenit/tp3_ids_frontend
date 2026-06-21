@@ -1,24 +1,22 @@
+# services/public/menus.py
 from utils.helpers import make_request
+from utils.admin import get_all_admin
 from constants import URL_PUBLIC_MENU, URL_ADMIN_MENUS
 
 
-def get_public_menu(category: str = None, name: str = None, limit: int = None, offset: int = None) -> list | None:
-    params = []
-    if category:
-        params.append(f"category={category}")
-    if name:
-        params.append(f"name={name}")
-    if limit is not None:
-        params.append(f"_limit={limit}")
-    if offset is not None:
-        params.append(f"_offset={offset}")
-
-    url = f"{URL_PUBLIC_MENU}?{'&'.join(params)}" if params else URL_PUBLIC_MENU
+def get_public_menu(category: str = None) -> list:
+    """Retorna una lista de platos. Si falla, retorna lista vacía."""
+    url = URL_PUBLIC_MENU
+    if category and category != 'all':
+        url += f"?category={category}"
+        
     response = make_request(url, "GET")
     if response.status_code == 200:
         return response.json()
     return None
 
+def get_all_menus_abm(token: str):
+    return get_all_admin(token, URL_ADMIN_MENUS)
 
 def get_all_menus(token: str) -> tuple[list | None, int]:
     response = make_request(URL_ADMIN_MENUS, "GET", token=token)
@@ -29,6 +27,7 @@ def get_all_menus(token: str) -> tuple[list | None, int]:
 
 def create_menu(token: str, data: dict) -> tuple[bool, dict, int]:
     response = make_request(URL_ADMIN_MENUS, "POST", data=data, token=token)
+    print(response)
     return response.status_code == 201, response.json(), response.status_code
 
 

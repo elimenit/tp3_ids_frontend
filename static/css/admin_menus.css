@@ -116,7 +116,7 @@
     vertical-align: middle;
 }
 
-.dishes-table tr:hover td {
+.dishes-table tr:hover td:not(:has(.edit-btn)) {
     background: rgba(255, 255, 255, 0.025);
 }
 
@@ -153,6 +153,12 @@
     background: rgba(50, 200, 100, 0.15);
     color: #60d890;
     border: 1px solid rgba(50, 200, 100, 0.3);
+}
+
+.badge-pending {
+    background: rgba(255, 201, 86, 0.212);
+    color: #d8a860;
+    border: 1px solid rgba(200, 135, 50, 0.3);
 }
 
 .badge-unavailable {
