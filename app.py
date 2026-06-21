@@ -1,6 +1,7 @@
 # Constantes y helpers
 
 from services.public.users import get_user
+from services.public.reviews import get_reviews
 # Librerias
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request
@@ -59,7 +60,8 @@ def main():
     if token:
         user = get_user(token)
 
-    return render_template('public/index.html', user=user)
+    reviews = get_reviews(limit=4) or []
+    return render_template('public/index.html', user=user, reviews=reviews)
 
 
 if __name__ == '__main__':

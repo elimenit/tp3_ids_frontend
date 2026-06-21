@@ -12,6 +12,5 @@ const fields = {
 const createUrl = '/admin/menus/create';
 const updateUrlBase = '/admin/menus/update';
 const toggleUrlBase = '/admin/menus/toggle_status';
-const idKey = 'id';
 
 setupCrudModal(fields, createUrl, updateUrlBase, toggleUrlBase);

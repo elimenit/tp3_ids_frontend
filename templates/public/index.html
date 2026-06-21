@@ -88,7 +88,21 @@
 
         <div class="carousel-wrapper">
             <button class="carousel-btn prev-btn" aria-label="Anterior">‹</button>
-            <div class="carousel" id="reviews-carousel"></div>
+            <div class="carousel" id="reviews-carousel">
+                {% for r in reviews %}
+                <div class="review-card">
+                    <div class="review-stars">
+                        {% for i in range(r.stars) %}★{% endfor %}{% for i in range(5 - r.stars) %}☆{% endfor %}
+                    </div>
+                    <p class="review-comment">{{ r.description }}</p>
+                    <span class="review-author">— {{ r.user_name }} · {{ r.created_at }}</span>
+                </div>
+                {% else %}
+                <div class="review-card">
+                    <p class="review-comment">Todavía no hay reseñas.</p>
+                </div>
+                {% endfor %}
+            </div>
             <button class="carousel-btn next-btn" aria-label="Siguiente">›</button>
         </div>
 
