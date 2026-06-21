@@ -1,5 +1,5 @@
-from services.public.users import validate_admin_user
-from services.public.menus import get_all_menus_abm, create_menu, update_menu, delete_menu
+from services.admin.users import validate_admin_user
+from services.admin.menus import get_all_menus_abm, create_menu, update_menu, delete_menu
 from utils.helpers import flash_message
 
 from flask import Blueprint, render_template, request, redirect, url_for
@@ -32,7 +32,7 @@ def show():
         for u in menus
     ]
 
-    return render_template('admin/menus.html',
+    return render_template('admin/abm/menus.html',
         user=user,
         cols=cols,
         rows=rows,

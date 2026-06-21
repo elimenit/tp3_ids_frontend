@@ -8,8 +8,8 @@
         <li><a href="{{ url_for('main') }}#contacto">Contactos</a></li>
         <li><a href="{{ url_for('public_reservations.new') }}">Reservar</a></li>
         {% if not user %}
-        <li><a href="{{ url_for('public_auth.login') }}">Iniciar sesión</a></li>
-        <li><a href="{{ url_for('public_auth.signup') }}">Registrarse</a></li>
+        <li><a href="{{ url_for('auth.login') }}">Iniciar sesión</a></li>
+        <li><a href="{{ url_for('auth.signup') }}">Registrarse</a></li>
         {% endif %}
         {% if user.category == 'admin' %}
         <li><a href="{{ url_for('admin_dashboards.show') }}">Gráficos</a></li>

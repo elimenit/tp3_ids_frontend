@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 
 {% block title %}Panel de Administración{% endblock %}
 
@@ -18,16 +18,16 @@
         console.log(data)
     </script>
     {% if area=='reservations' %}
-        <script type="module" src="{{ url_for('static', filename='js/dashboards/reservations.js') }}"></script>
+        <script type="module" src="{{ url_for('static', filename='js/sections/dashboards/reservations.js') }}"></script>
     {% endif %}
     {% if area=='reviews' %}
-        <script type="module" src="{{ url_for('static', filename='js/dashboards/reviews.js') }}"></script>
+        <script type="module" src="{{ url_for('static', filename='js/sections/dashboards/reviews.js') }}"></script>
     {% endif %}
 
 {% endblock %}
 
 {% block header %}
-    {% include 'public/nav.html' %}
+    {% include 'partials/nav.html' %}
 {% endblock %}
 
 {% block body %}
@@ -40,7 +40,7 @@
     {% endif %}
 
     <!-- Panel de configuración -->
-    {% include 'public/settings.html' %}
+    {% include 'partials/settings.html' %}
     <div class="page-content" style="flex-direction: row;">
         <div class="block flex-block graphs-sidebar">
             <div class="block-header">

@@ -1,14 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 {% block title %} Reseñas — Restaurante {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/reviews.css') }}">
-<script type="module" src="{{ url_for('static', filename='js/reviews.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sections/reviews.css') }}">
+<script type="module" src="{{ url_for('static', filename='js/sections/reviews.js') }}"></script>
 {% endblock %}
 
 {% block header %}
-{% include 'public/nav.html' %}
-{% include 'public/settings.html' %}
+{% include 'partials/nav.html' %}
+{% include 'partials/settings.html' %}
 {% endblock %}
 
 {% block body %}
@@ -73,5 +73,5 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'public/footer.html' %}
+{% include 'partials/footer.html' %}
 {% endblock %}

@@ -1,5 +1,5 @@
 from constants import URL_DASHBOARDS
-from services.public.users import validate_admin_user
+from services.admin.users import validate_admin_user
 from utils.helpers import make_request, flash_message
 
 from flask import Blueprint, render_template, request

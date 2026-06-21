@@ -42,8 +42,8 @@
         </div>
 
         <form id="form-principal" action="
-            {%- if login %}{{ url_for('public_auth.login') }}
-            {%- elif signup %}{{ url_for('public_auth.signup') }}
+            {%- if login %}{{ url_for('auth.login') }}
+            {%- elif signup %}{{ url_for('auth.signup') }}
             {%- else %}{{ url_for('public_users.update_user') }}
             {%- endif %}" method="POST">
 

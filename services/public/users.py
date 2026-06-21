@@ -1,8 +1,7 @@
-from constants import URL_PUBLIC_USERS_ME, URL_ADMIN_USERS
-from utils.helpers import flash_message, make_request
-from utils.admin import get_all_admin
+from constants import URL_PUBLIC_USERS_ME
+from utils.helpers import default_flash, make_request
 
-from flask import Response, request, redirect, url_for
+from flask import request
 
 def get_user(token: str) -> dict:
     """
@@ -14,33 +13,16 @@ def get_user(token: str) -> dict:
         user = response.json()
         return user
     elif response.status_code != 401: # si es 401, simplemente no se ha iniciado sesión/expiró, no es un error
-        data = response.json()
-        flash_message(
-            data.get('message', 'Error desconocido.'),
-            data.get('description', '')
-        )
+        default_flash(response)
     return {}    
 
-def validate_admin_user() -> tuple[dict, Response | str]:
+def get_current_user() -> dict:
     """
-    Si todo sale bien, devuelve el usuario y el token. 
-    En caso contrario, la variable usuario estará vacía y devolverá la Response de redirección
+    Obtiene el usuario autenticado a partir de la cookie de sesión.
+    Retorna el dict del usuario o {} si no hay sesión válida.
     """
     token = request.cookies.get('session_token')
     if not token:
-        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
-        return {}, redirect(url_for('public_auth.login')) # type: ignore
+        return {}
+    return get_user(token)
 
-    user = get_user(token)
-    if not user:
-        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
-        return {}, redirect(url_for('public_auth.login')) # type: ignore
-
-    if user.get('category') != 'admin':
-        flash_message("Acceso denegado", "No tienes permisos para acceder a esta página.", "error")
-        return {}, redirect(url_for('main')) # type: ignore
-    
-    return user, token
-
-def get_all_users(token: str) -> tuple[list[dict], int, int, int]:
-    return get_all_admin(token, URL_ADMIN_USERS)

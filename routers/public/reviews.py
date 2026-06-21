@@ -1,7 +1,8 @@
 from services.public.reviews import get_reviews, get_my_reservations, create_review, update_review, delete_review
-from utils.helpers import get_current_user
+from services.public.users import get_current_user
+from utils.helpers import flash_message
 
-from flask import Blueprint, render_template, request, jsonify, url_for
+from flask import Blueprint, render_template, request, jsonify, url_for, redirect
 
 public_bp_reviews = Blueprint('public_reviews', __name__)
 
@@ -10,17 +11,16 @@ public_bp_reviews = Blueprint('public_reviews', __name__)
 def show():
     user = get_current_user()
     return render_template('public/reviews/reviews.html',
-        user=user,
+        user=user
     )
 
 
 @public_bp_reviews.route("/all", methods=["GET"])
 def all_reviews():
-    limit = request.args.get('_limit', 10, type=int)
-    offset = request.args.get('_offset', 0, type=int)
-    reviews = get_reviews(limit=limit, offset=offset)
+    reviews = get_reviews()
     if reviews is None:
-        return jsonify({"mensaje": "No se pudo obtener las reseñas"}), 502
+        flash_message("Error", "No se pudo obtener las reseñas")
+        return redirect(url_for('main'))
     return jsonify(reviews)
 
 
@@ -33,7 +33,8 @@ def user_reservations():
     if status == 401:
         return jsonify({"mensaje": "Sesión expirada"}), 401
     if reservations is None:
-        return jsonify({"mensaje": "No se pudo obtener las reservas"}), 502
+        flash_message("Error", "No se pudo obtener las reservas")
+        return redirect(url_for('main'))
     return jsonify(reservations)
 
 

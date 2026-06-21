@@ -1,4 +1,4 @@
-import { showAlert } from './alerts.js';
+import { showAlert } from '../general/alerts.js';
 
 const PAGE_LIMIT = 10;
 

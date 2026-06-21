@@ -1,5 +1,7 @@
-import { parseDateTime } from "../utils.js";
-
+import { parseDateTime } from "../general/utils.js";
+console.log("¡¡EL ARCHIVO DE MENUS CARGÓ CON ÉXITO!!");
+console.log("¡¡EL ARCHIVO DE MENUS CARGÓ CON ÉXITO!!");
+console.log("¡¡EL ARCHIVO DE MENUS CARGÓ CON ÉXITO!!");
 const fillForm = (fields, data, idKey, form, deleteForm, createUrl, updateUrlBase, toggleUrlBase) => {
     Object.entries(fields).forEach(([fieldId, dataKey]) => {
         const input = document.getElementById(fieldId);

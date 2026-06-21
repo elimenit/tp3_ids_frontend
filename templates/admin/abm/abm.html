@@ -15,11 +15,11 @@
     area_js    El `script` de la página, con su llamada a setupCrudModal({...}).
 #}
 
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 {% block title %} {{ page_title }} {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/admin_menus.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sections/abm.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/btns/edit_btn.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/general/pagination.css') }}">
 
@@ -29,17 +29,17 @@
 {% endblock %}
 
 {% block header %}
-{% include 'public/nav.html' %}
-{% include 'public/settings.html' %}
+{% include 'partials/nav.html' %}
+{% include 'partials/settings.html' %}
 {% endblock %}
 
 {% block body %}
 {% block abm_form %}
 {% endblock %}
-{% include 'admin/adm_table.html' %}
+{% include 'admin/abm/adm_table.html' %}
 <div class="overlay" id="overlay"></div>
 {% endblock %}
 
 {% block footer %}
-{% include 'public/footer.html' %}
+{% include 'partials/footer.html' %}
 {% endblock %}

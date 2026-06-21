@@ -1,4 +1,4 @@
-import { showAlert } from './alerts.js';
+import { showAlert } from './general/alerts.js';
 
 /*
 Se asegura de que las contraseñas coincidan antes de enviar el formulario de registro. 

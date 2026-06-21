@@ -1,5 +1,5 @@
 from constants import URL_ADMIN_USERS
-from services.public.users import validate_admin_user, get_all_users
+from services.admin.users import validate_admin_user, get_all_users
 from utils.helpers import flash_message, make_request, default_flash
 
 from flask import Blueprint, render_template, request, redirect, url_for
@@ -28,7 +28,7 @@ def show():
     for u in users
     ]
 
-    return render_template('admin/users.html',
+    return render_template('admin/abm/users.html',
         user=user,
         cols=cols,
         rows=rows,
