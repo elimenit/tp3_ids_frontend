@@ -30,6 +30,7 @@ from routers.public.reviews import public_bp_reviews
 from routers.admin.menus import admin_bp_menus
 from routers.admin.dashboards import admin_bp_dashboards
 from routers.admin.users import admin_bp_users
+from routers.admin.tables import admin_bp_tables
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(bp_auth, url_prefix="/auth")
@@ -40,6 +41,7 @@ app.register_blueprint(public_bp_menus, url_prefix="/menu")
 app.register_blueprint(public_bp_reviews, url_prefix="/reviews")
 app.register_blueprint(admin_bp_menus, url_prefix="/admin/menus")
 app.register_blueprint(admin_bp_dashboards, url_prefix="/admin/dashboards")
+app.register_blueprint(admin_bp_tables, url_prefix="/admin/tables")
 
 # Errors
 @app.errorhandler(404)

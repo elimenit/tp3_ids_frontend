@@ -11,6 +11,7 @@
             <li><a href="{{ url_for('admin_menus.show') }}">Panel de Menús</a></li>
             <li><a href="{{ url_for('admin_users.show') }}">Panel de Usuarios</a></li>
             <li><a href="{{ url_for('admin_reservations.show') }}">Panel de Reservas</a></li>
+            <li><a href="{{ url_for('admin_tables.show') }}">Panel de Mesas</a></li>
             {% endif %}
             {% if user %}
             <li><a href="{{ url_for('auth.logout') }}">Cerrar sesión</a></li>
