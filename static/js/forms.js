@@ -21,8 +21,7 @@ const checkPasswordMatch = () => {
 };
 
 /*
-Agrega un evento a los botones de eliminación que muestra una alerta de confirmación antes de enviar el formulario de eliminación. 
-Si el usuario confirma, se envía el formulario; de lo contrario, no se hace nada.
+Agrega un evento de confirmación para los formularios de eliminación. Los textos son asignados en los datasets de los botones
 */
 const alertElimination = () => {
     const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -30,18 +29,12 @@ const alertElimination = () => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
 
-            const isAdmin = button.dataset.admin === 'true';
-
-            const text = isAdmin
-                ? '¿Estás seguro de que deseas actualizar el estado de este usuario?'
-                : '¿Estás seguro de que deseas eliminar este usuario?';
+            const text = button.dataset.confirmText || '¿Estás seguro?';
 
             showAlert('Confirmación', text, 'warning').then((result) => {
                 if (result.isConfirmed) {
                     const form = document.getElementById(button.dataset.formid);
-                    if (form) {
-                        form.submit();
-                    }
+                    if (form) form.submit();
                 }
             });
         });

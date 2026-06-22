@@ -31,6 +31,7 @@ def show():
         user=user,
         cols=cols,
         rows=rows,
+        tables=True,
         page_title="Administrar mesas",
         title="Mesas",
         plus_label="Agregar mesa",
