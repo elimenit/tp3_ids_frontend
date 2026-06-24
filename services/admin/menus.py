@@ -7,7 +7,6 @@ def get_all_menus_abm(token: str):
 
 def create_menu(token: str, data: dict) -> tuple[bool, dict, int]:
     response = make_request(URL_ADMIN_MENUS, "POST", data=data, token=token)
-    print(response)
     return response.status_code == 201, response.json(), response.status_code
 
 def update_menu(token: str, menu_id: int, data: dict) -> tuple[bool, dict, int]:

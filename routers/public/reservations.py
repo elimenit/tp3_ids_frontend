@@ -16,7 +16,6 @@ def new():
         return redirect(url_for('auth.login'))
 
     tables_data = get_tables()
-    print(tables_data)
     return render_template('public/reservations/new.html',
         tables=tables_data,
         fecha="",
@@ -42,7 +41,6 @@ def create():
         )
         return redirect(url_for('auth.login'))
     data = extract_form(["fecha", "hora", "table_id", "people_amount"])
-    print(data)
     res = create_reservation(token, data)
 
     if isinstance(res, int):
@@ -115,7 +113,6 @@ def confirmar():
     res = make_request(url, 'PATCH', {'status_reservation': 'Arrived'})
     if res.status_code == 200:
         reservation = res.json()
-        print(reservation)
         flash_message('Reserva confirmada!',
             f'La reserva es en la mesa número {reservation.get('table_id')}, para la cantidad de {reservation.get('people_amount')} comensales.', 'success')
         return redirect(url_for('main'))

@@ -37,7 +37,6 @@ def create():
         'description': request.form.get('description'),
         'stars': request.form.get('stars'),
     }
-    print(data)
     success, response, status = create_review(token, data)
 
     if success:
