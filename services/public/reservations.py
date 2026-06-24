@@ -28,7 +28,7 @@ def create_reservation(token, data):
 
     if response.status_code == 201:
         reserva_id = response.json().get("reserva_id")
-        return reserva_id, None
+        return reserva_id
 
     default_flash(response)
     return redirect(url_for('public_reservations.new'))

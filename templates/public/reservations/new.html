@@ -12,6 +12,8 @@
 {% endblock %}
 
 {% block body %}
+{% include 'partials/settings.html' %}
+<div class="overlay" id="overlay"></div>
 <main class="page-content" style="justify-content: center; align-items: flex-start; margin-top: 5.5rem;">
         {% if tables %}
         <div class="block tables-section">

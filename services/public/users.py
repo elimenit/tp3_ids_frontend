@@ -26,3 +26,9 @@ def get_current_user() -> dict:
         return {}
     return get_user(token)
 
+def is_employee() -> bool:
+    user = get_current_user()
+    if not user:
+        return False
+    return user.get('category') in ['admin', 'root', 'employee']
+

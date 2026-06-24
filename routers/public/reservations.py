@@ -1,6 +1,7 @@
-from utils.helpers import flash_message, extract_form
-from services.public.users import get_current_user
+from utils.helpers import flash_message, extract_form, make_request, default_flash
+from services.public.users import get_current_user, is_employee, get_user
 from services.public.reservations import get_tables, create_reservation, get_reservation, cancel_by_token
+from constants import URL_RESERVATIONS
 
 from flask import Blueprint, request, render_template, redirect, url_for
 
@@ -32,8 +33,8 @@ def create():
     POST /reservations/
     """
     token = request.cookies.get('session_token')
-
-    if not token:
+    user = get_user(token)
+    if not (token and user):
         flash_message(
             "No has iniciado sesión",
             "Por favor, inicie sesión para continuar.",
@@ -42,43 +43,14 @@ def create():
         return redirect(url_for('auth.login'))
     data = extract_form(["fecha", "hora", "table_id", "people_amount"])
     print(data)
-    user = get_current_user()
+    res = create_reservation(token, data)
 
-    reserva_id, error = create_reservation(token, data)
-
-    if reserva_id:
+    if isinstance(res, int):
         return redirect(url_for(
             'public_reservations.confirmacion',
-            id=reserva_id
+            id=res
         ))
-
-    if error and error.get("tipo") == "mesa_no_disponible":
-        flash_message(
-            "Mesa no disponible",
-            error.get("mensaje", ""),
-            "warning"
-        )
-        mesas_libres = error.get("mesas_libres", [])
-        return render_template(
-            'public/reservations/new.html',
-            tables=mesas_libres,
-            fecha=data.get("fecha"),
-            hora=data.get("hora"),
-            user=user,
-        )
-
-    flash_message(
-        "Error al reservar",
-        error.get("mensaje", "Ocurrió un error inesperado.") if error else ""
-    )
-    return render_template(
-        'public/reservations/new.html',
-        tables=[],
-        fecha=data.get("fecha"),
-        hora=data.get("hora"),
-        user=user,
-    )
-
+    return res
 
 @public_bp_reservations.route("/<int:id>/confirmacion", methods=["GET"])
 def confirmacion(id):
@@ -127,3 +99,22 @@ def cancelar():
         mensaje=mensaje,
         user=get_current_user(),
     )
+
+@public_bp_reservations.route("/confirmar", methods=["GET"])
+def confirmar():
+    if not is_employee():
+        flash_message('Error', 'No tienes los permisos para realizar esta acción. Por favor, contacta con un empleado', 'error')
+        return redirect(url_for('main'))
+    
+    qr_token = request.args.get("token")
+    if not qr_token:
+        flash_message("Error", "Token inválido.")
+        return redirect(url_for('main'))
+    url = f"{URL_RESERVATIONS}confirm/{qr_token}"
+    res = make_request(url, 'PATCH', {'status_reservation': 'Arrived'})
+    if res.status_code == 204:
+        flash_message('Reserva confirmada!', 'La reserva ha sido confirmada exitósamente', 'success')
+        return redirect(url_for('main'))
+    else:
+        default_flash(res)
+        return redirect(url_for('main'))
