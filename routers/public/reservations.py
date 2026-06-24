@@ -110,10 +110,14 @@ def confirmar():
     if not qr_token:
         flash_message("Error", "Token inválido.")
         return redirect(url_for('main'))
+    
     url = f"{URL_RESERVATIONS}confirm/{qr_token}"
     res = make_request(url, 'PATCH', {'status_reservation': 'Arrived'})
-    if res.status_code == 204:
-        flash_message('Reserva confirmada!', 'La reserva ha sido confirmada exitósamente', 'success')
+    if res.status_code == 200:
+        reservation = res.json()
+        print(reservation)
+        flash_message('Reserva confirmada!',
+            f'La reserva es en la mesa número {reservation.get('table_id')}, para la cantidad de {reservation.get('people_amount')} comensales.', 'success')
         return redirect(url_for('main'))
     else:
         default_flash(res)
