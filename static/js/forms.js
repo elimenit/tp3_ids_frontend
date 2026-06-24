@@ -1,4 +1,4 @@
-import { showAlert } from './alerts.js';
+import { showAlert } from './general/alerts.js';
 
 /*
 Se asegura de que las contraseñas coincidan antes de enviar el formulario de registro. 
@@ -21,23 +21,20 @@ const checkPasswordMatch = () => {
 };
 
 /*
-Agrega un evento a los botones de eliminación que muestra una alerta de confirmación antes de enviar el formulario de eliminación. 
-Si el usuario confirma, se envía el formulario; de lo contrario, no se hace nada.
+Agrega un evento de confirmación para los formularios de eliminación. Los textos son asignados en los datasets de los botones
 */
 const alertElimination = () => {
     const deleteButtons = document.querySelectorAll('.delete-btn');
     deleteButtons.forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            showAlert(
-                'Confirmación', 
-                '¿Estás seguro de que deseas eliminar este usuario?', 
-                'warning').then((result) => {   
+
+            const text = button.dataset.confirmText || '¿Estás seguro?';
+
+            showAlert('Confirmación', text, 'warning').then((result) => {
                 if (result.isConfirmed) {
-                const form = document.getElementById(button.dataset.formid);
-                    if (form) { 
-                        form.submit();
-                    }
+                    const form = document.getElementById(button.dataset.formid);
+                    if (form) form.submit();
                 }
             });
         });
