@@ -1,9 +1,13 @@
 from constants import URL_PUBLIC_REVIEWS, URL_PUBLIC_RESERVATIONS_ME
 from utils.helpers import make_request
+from utils.pagination import build_pagination_url
 
-
-def get_reviews(limit: int = 10, offset: int = 0) -> list | None:
-    url = f"{URL_PUBLIC_REVIEWS}?_limit={limit}&_offset={offset}"
+def get_reviews(limit: int = 0, offset: int = 0) -> list | None:
+    """Acepta parámetros de paginación opcionales. Si no se proveen, se buscan los parámetros en la URL actual."""
+    if not limit:
+        url, _, _ = build_pagination_url(URL_PUBLIC_REVIEWS)
+    else:
+        url = f"{URL_PUBLIC_REVIEWS}?limit={limit}&offset={offset}"
     response = make_request(url, "GET")
     return response.json() if response.status_code == 200 else None
 

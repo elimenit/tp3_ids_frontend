@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 {% block title %} Restaurante {% endblock %}
 
 {% block head %}
@@ -7,12 +7,12 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
 
 <!-- JS -->
-<script type="module" src="{{ url_for('static', filename='js/nav.js') }}"></script>
-<script defer src="{{ url_for('static', filename='js/carousel.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/general/carousel.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/sections/home_reviews.js') }}"></script>
 {% endblock %}
 
 {% block header %}
-    {% include 'public/nav.html' %}
+    {% include 'partials/nav.html' %}
 {% endblock %}
 
 {% block body %}
@@ -23,7 +23,7 @@
     {% include 'auth/auth_form.html' %} 
     {% endif %}
 
-    {% include 'public/settings.html' %}
+    {% include 'partials/settings.html' %}
 <header class="main-banner">
     <div class="banner-logo">
         <img src="{{ url_for('static', filename='img/nav-logo.png') }}" alt="Logo del restaurante">
@@ -145,5 +145,5 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'public/footer.html' %}
+{% include 'partials/footer.html' %}
 {% endblock %}

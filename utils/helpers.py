@@ -61,21 +61,6 @@ def make_cookie_response(res: Response, token: str):
         max_age=7200
     )
 
-def get_current_user() -> dict | None:
-    """
-    Obtiene el usuario autenticado a partir de la cookie de sesión.
-    Retorna el dict del usuario o None si no hay sesión válida.
-    """
-    from constants import URL_PUBLIC_USERS_ME
-    token = request.cookies.get('session_token')
-    if not token:
-        return None
-    response = make_request(URL_PUBLIC_USERS_ME, "GET", token=token)
-    if response.status_code == 200:
-        return response.json()
-    return None
-
-
 def flash_message(
         title: str, 
         description: str = '', 
@@ -97,3 +82,7 @@ def default_flash(res: requests.Response):
         data.get('message', 'Error desconocido.'),
         data.get('description', '')
     )
+    
+def extract_form(fields: list[str]) -> dict:
+    """Extrae los campos de un formulario HTML a un diccionario, dado una lista de los nombres de los campos"""
+    return {field: request.form.get(field) for field in fields}

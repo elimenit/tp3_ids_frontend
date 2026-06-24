@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 {% block title %} Reservación Confirmada {% endblock %}
 
 {% block head %}
@@ -7,7 +7,7 @@
 
 {% block body %}
 <main class="confirmation-container">
-    <div class="block">
+    <div class="block fixed-block open">
         <div class="block-header">
             <h2>¡Reservación confirmada!</h2>
         </div>
@@ -20,7 +20,7 @@
                 <li><strong>Reserva #:</strong> {{ reserva.id }}</li>
                 <li><strong>Titular:</strong> {{ reserva.user_name }}</li>
                 <li><strong>Mesa:</strong> {{ reserva.table_number }}</li>
-                <li><strong>Capacidad:</strong> {{ reserva.capacity }} personas</li>
+                <li><strong>Capacidad:</strong> {{ reserva.people_amount }} personas</li>
                 <li><strong>Fecha y hora:</strong> {{ reserva.reservation_datetime }}</li>
                 <li><strong>Estado:</strong> {{ reserva.status_reservation }}</li>
             </ul>
@@ -33,8 +33,4 @@
         </div>
     </div>
 </main>
-{% endblock %}
-
-{% block footer %}
-{% include 'public/footer.html' %}
 {% endblock %}

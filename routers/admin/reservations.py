@@ -1,9 +1,7 @@
-from services.public.users import validate_admin_user
+from services.admin.users import validate_admin_user
 from constants import URL_ADMIN_RESERVATIONS
-from utils.helpers import flash_message, make_request, default_flash
-from services.public.reservations import (
-    get_all_reservations
-)
+from utils.helpers import extract_form, flash_message, make_request, default_flash
+from services.admin.reservations import get_all_reservations
 
 from flask import Blueprint, request, render_template, redirect, url_for
 
@@ -32,7 +30,7 @@ def show():
     }
     for u in reservas
     ]
-    return render_template('admin/reservations.html',
+    return render_template('admin/abm/reservations.html',
         user=user,
         cols=cols,
         rows=rows,
@@ -50,17 +48,8 @@ def update(reservation_id):
     if not user:
         return token
     
-    print('\n',request.form.get('table_display'))
-    
-    payload = {
-        'user_email': request.form.get('user_email'),
-        'fecha': request.form.get('fecha'),
-        'hora': request.form.get('hora'),
-        'table_id': request.form.get('table_display'),
-        'people_amount': request.form.get('people_amount'),
-        'status_reservation': request.form.get('status_reservation')
-    }
-    print(payload)
+    payload = extract_form(["user_email", "fecha", "hora", "table_display", "people_amount", "status_reservation"]) 
+    payload['table_id'] = payload.pop('table_display') # El backend espera 'table_id', pero el form tiene 'table_display' para mostrar el número de mesa
     res = make_request(f"{URL_ADMIN_RESERVATIONS}/{reservation_id}", 'PUT', data=payload, token=token) # type: ignore
 
     if res.status_code == 204:

@@ -1,4 +1,5 @@
 import { setupCrudModal } from './crud.js'
+console.log("¡¡EL ARCHIVO DE MENUS CARGÓ CON ÉXITO!!");
 
 const fields = {
         name: 'name',

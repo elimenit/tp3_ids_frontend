@@ -42,8 +42,8 @@
         </div>
 
         <form id="form-principal" action="
-            {%- if login %}{{ url_for('public_auth.login') }}
-            {%- elif signup %}{{ url_for('public_auth.signup') }}
+            {%- if login %}{{ url_for('auth.login') }}
+            {%- elif signup %}{{ url_for('auth.signup') }}
             {%- else %}{{ url_for('public_users.update_user') }}
             {%- endif %}" method="POST">
 
@@ -98,7 +98,11 @@
 
             <div class="block-footer">
                 {% if update_user or admin_user %}
-                <button class="delete-btn" data-formid="eliminarUser" {{ 'data-admin=true ' if admin_user else "" }}type="button">
+                <button class="delete-btn" 
+                    data-formid="eliminarUser" 
+                    data-confirm-text="¿Estás seguro de que deseas {{ 'desactivar' if admin_user else 'eliminar' }} este usuario?"
+                    {{ 'data-admin=true ' if admin_user else "" }}
+                    type="button">
                     {% if admin_user %}    
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-power-icon lucide-power"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.77.04"/></svg>
                     {% else %}
