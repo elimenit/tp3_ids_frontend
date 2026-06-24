@@ -12,7 +12,7 @@ def get_tables():
     response = make_request(URL_PUBLIC_TABLES, "GET")
 
     if response.status_code == 200:
-        return response.json()['data']
+        return response.json()
 
     default_flash(response)
     return None

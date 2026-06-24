@@ -2,10 +2,11 @@ from constants import URL_ADMIN_TABLES
 from services.admin.helpers import get_all_admin
 from utils.helpers import make_request
 
-def get_all_tables(token: str) -> tuple[list[dict], int, int, int]:
-    return get_all_admin(token, URL_ADMIN_TABLES)
+def get_all_tables(token: str, limit: int = 10, offset: int = 0) -> list:
+    r = make_request(f"{URL_ADMIN_TABLES}?limit={str(limit)}&offset={str(offset)}", 'GET', token=token)
+    return r.json() if r.status_code == 200 else []
 
-def create_table(token: str, data: dict) -> tuple[bool, dict, int]:
+def create_table(token: str, data: dict):
     """Crear una nueva mesa"""
     res = make_request(URL_ADMIN_TABLES, 'POST', data=data, token=token)
     success = res.status_code in (200, 201)

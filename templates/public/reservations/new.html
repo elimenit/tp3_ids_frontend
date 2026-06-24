@@ -23,8 +23,8 @@
                 {% for mesa in tables %}
                 <div class="table-card table-available" data-id="{{ mesa.id }}"
                     onclick="elegirMesa(this)">
-                    <h3>Mesa {{ mesa.id }}</h3>
-                    <p>{{ mesa.capacity }} personas</p>
+                    <h3>Mesa {{ mesa.get('number') }}</h3>
+                    <p>{{ mesa.get('capacity') }} personas</p>
                     <span class="table-status status-available">Disponible</span>
                 </div>
                 {% endfor %}

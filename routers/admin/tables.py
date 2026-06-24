@@ -13,8 +13,7 @@ def show():
     if not user:
         return token
 
-    tables, page, per_page, total_pages = get_all_tables(token)  # type: ignore
-
+    tables, page, per_page, total_pages = get_all_tables(token) 
     cols = ['ID', 'Capacidad', 'Estado']
     rows = [
         {
