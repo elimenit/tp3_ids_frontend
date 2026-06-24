@@ -23,9 +23,6 @@
     {% if area=='reviews' %}
         <script type="module" src="{{ url_for('static', filename='js/dashboards/reviews.js') }}"></script>
     {% endif %}
-    {% if area=='deliveries' %}
-        <script type="module" src="{{ url_for('static', filename='js/dashboards/deliveries.js') }}"></script>
-    {% endif %}
 
 {% endblock %}
 
@@ -39,7 +36,7 @@
 
     <!-- Panel para actualizar usuario -->
     {% if user %}
-        {% include 'public/auth/auth_form.html' %} 
+        {% include 'auth/auth_form.html' %} 
     {% endif %}
 
     <!-- Panel de configuración -->
@@ -54,7 +51,6 @@
                     <h3>Control de área</h3>
                 <ul>
                     <li><a class="{{ 'active' if area=='reservations' }}" href="{{ url_for('admin_dashboards.show', area='reservations') }}">Reservas</a></li>
-                    <li><a class="{{ 'active' if area=='deliveries' }}" href="{{ url_for('admin_dashboards.show', area='deliveries') }}">Delivery</a></li>
                     <li><a class="{{ 'active' if area=='reviews' }}" href="{{ url_for('admin_dashboards.show', area='reviews') }}">Reseñas</a></li>
                 </ul>
                 </div>
@@ -78,7 +74,7 @@
                                 <label for="fechaFinal">Hasta</label>
                                 <input id='fechaFinal' type="date" name="fin" value="{{ fin }}" max="{{ hoy }}">
                             </li>
-                            </li><button type="submit">Filtrar</button></li>
+                            </li><button type="submit" style="position: relative;">Filtrar</button></li>
                         </ul>
                     </form>
                 </div>

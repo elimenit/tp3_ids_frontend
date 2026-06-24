@@ -1,5 +1,6 @@
 # Constantes y helpers
 from services.public.users import get_user
+from services.public.reviews import get_reviews
 # Librerias
 from werkzeug.exceptions import HTTPException
 from flask import Flask, render_template, request
@@ -18,12 +19,13 @@ from routers.public.menus import public_bp_menus
 from routers.public.reviews import public_bp_reviews
 from routers.admin.menus import admin_bp_menus
 from routers.admin.dashboards import admin_bp_dashboards
+from routers.admin.users import admin_bp_users
 
 app.register_blueprint(public_bp_users, url_prefix="/users")
 app.register_blueprint(public_bp_auth, url_prefix="/auth")
 app.register_blueprint(public_bp_reservations, url_prefix="/reservations")
 app.register_blueprint(adm_bp_reservations, url_prefix="/admin/reservations")
-
+app.register_blueprint(admin_bp_users, url_prefix="/admin/users")
 app.register_blueprint(public_bp_menus, url_prefix="/menu")
 app.register_blueprint(public_bp_reviews, url_prefix="/reviews")
 app.register_blueprint(admin_bp_menus, url_prefix="/admin/menus")
@@ -48,7 +50,8 @@ def main():
     if token:
         user = get_user(token)
 
-    return render_template('public/index.html', user=user)
+    reviews = get_reviews(limit=4) or []
+    return render_template('public/index.html', user=user, reviews=reviews)
 
 
 if __name__ == '__main__':

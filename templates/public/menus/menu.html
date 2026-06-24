@@ -3,7 +3,7 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
-<script type="module" src="{{ url_for('static', filename='js/menu.js') }}"></script>
+<script defer src="{{ url_for('static', filename='js/menu.js') }}"></script>
 {% endblock %}
 
 {% block header %}
@@ -13,7 +13,7 @@
 
 {% block body %}
 {% if user %}
-{% include 'public/auth/auth_form.html' %}
+{% include 'auth/auth_form.html' %}
 {% endif %}
 <main class="menu-page">
     <h1 class="menu-title">Nuestro Menú</h1>
@@ -37,47 +37,11 @@
                     <h2 class="dish-name">{{ dish.name }}</h2>
                     <p class="dish-description">{{ dish.description }}</p>
                     <span class="dish-price">${{ dish.price }}</span>
-                    <button class="add-to-cart-btn" 
-                        data-id="{{ dish.id }}" 
-                        data-name="{{ dish.name }}" 
-                        data-price="{{ dish.price }}">Agregar</button>
                 </div>
             </article>
         {% endfor %}
     </div>
 </main>
-
-<button id="cart-float-btn" class="cart-float-btn" aria-label="Abrir carrito">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="8" cy="21" r="1"></circle>
-        <circle cx="19" cy="21" r="1"></circle>
-        <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
-    </svg>
-</button>
-
-<div id="cart-modal" class="cart-modal" hidden>
-    <div class="cart-modal-content">
-        <div class="cart-modal-header">
-            <h2>Tu Carrito</h2>
-            <button id="close-cart-btn" class="close-cart-btn">&times;</button>
-        </div>
-        <div class="cart-modal-body">
-            <div id="empty-cart-msg" class="empty-message">Aún no has agregado platos.</div>
-            
-            <ul id="cart-items-list" class="cart-items-list"></ul>
-            
-            <div class="cart-total" id="cart-total-container" hidden>
-                <span>Total:</span>
-                <span id="cart-total-price">$0</span>
-            </div>
-        </div>
-        <div class="cart-modal-footer">
-            <a href="{{ url_for('public_deliveries.show') }}" id="btn-delivery" class="cart-action-btn btn-delivery">Delivery</a>
-            <button id="btn-pay" class="cart-action-btn btn-pay">Pagar</button>
-        </div>
-    </div>
-</div>
-
 <div class="overlay" id="overlay"></div>
 {% endblock %}
 

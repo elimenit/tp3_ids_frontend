@@ -1,8 +1,8 @@
 from constants import URL_DASHBOARDS
-from services.public.users import get_user
+from services.public.users import validate_admin_user
 from utils.helpers import make_request, flash_message
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, render_template, request
 from datetime import datetime, timedelta
 
 admin_bp_dashboards = Blueprint('admin_dashboards', __name__)
@@ -10,26 +10,16 @@ admin_bp_dashboards = Blueprint('admin_dashboards', __name__)
 @admin_bp_dashboards.route('/')
 @admin_bp_dashboards.route('/<string:area>')
 def show(area: str = 'reservations'):
-    token = request.cookies.get('session_token')
-    if not token:
-        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
-        return redirect(url_for('public_auth.login'))
-
-    user = get_user(token)
+    user, token = validate_admin_user()
     if not user:
-        flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
-        return redirect(url_for('public_auth.login'))
-
-    if user.get('category') != 'admin':
-        flash_message("Acceso denegado", "No tienes permisos para acceder a esta página.", "error")
-        return redirect(url_for('main'))
+        return token
     
     ftoday = datetime.now().strftime('%Y-%m-%d')
     inicio = request.args.get('inicio', (datetime.now() - timedelta(days=30)).strftime('%Y-%m-%d'))
     fin = request.args.get('fin', ftoday)
     dash_url = f"{URL_DASHBOARDS}/{area}?inicio={inicio}&fin={fin}"
 
-    response = make_request(dash_url, 'GET', token=token)
+    response = make_request(dash_url, 'GET', token=token) # type: ignore
     if response.status_code == 200:
         data: dict = response.json()
     else:

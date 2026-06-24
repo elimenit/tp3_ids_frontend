@@ -1,7 +1,6 @@
 from services.public.reviews import get_reviews, get_my_reservations, create_review, update_review, delete_review
-from utils.helpers import get_current_user
-
-from flask import Blueprint, render_template, request, jsonify, url_for
+from utils.helpers import get_current_user, flash_message
+from flask import Blueprint, render_template, request, redirect, url_for
 
 public_bp_reviews = Blueprint('public_reviews', __name__)
 
@@ -9,58 +8,84 @@ public_bp_reviews = Blueprint('public_reviews', __name__)
 @public_bp_reviews.route("/", methods=["GET"])
 def show():
     user = get_current_user()
+    token = request.cookies.get('session_token')
+
+    reviews = get_reviews() or []
+
+    reservations = []
+    if token:
+        result, status = get_my_reservations(token)
+        if result:
+            reservations = [r for r in result if r.get('status_reservation') == 'Arrived']
+
     return render_template('public/reviews/reviews.html',
         user=user,
+        reviews=reviews,
+        reservations=reservations,
     )
 
 
-@public_bp_reviews.route("/all", methods=["GET"])
-def all_reviews():
-    limit = request.args.get('_limit', 10, type=int)
-    offset = request.args.get('_offset', 0, type=int)
-    reviews = get_reviews(limit=limit, offset=offset)
-    if reviews is None:
-        return jsonify({"mensaje": "No se pudo obtener las reseñas"}), 502
-    return jsonify(reviews)
-
-
-@public_bp_reviews.route("/reservations", methods=["GET"])
-def user_reservations():
-    token = request.cookies.get('session_token')
-    if not token:
-        return jsonify({"mensaje": "No autorizado"}), 401
-    reservations, status = get_my_reservations(token)
-    if status == 401:
-        return jsonify({"mensaje": "Sesión expirada"}), 401
-    if reservations is None:
-        return jsonify({"mensaje": "No se pudo obtener las reservas"}), 502
-    return jsonify(reservations)
-
-
-@public_bp_reviews.route("/create", methods=["POST"])
+@public_bp_reviews.post("/create")
 def create():
     token = request.cookies.get('session_token')
     if not token:
-        return jsonify({"mensaje": "No autorizado"}), 401
-    data = request.get_json()
+        return redirect(url_for('public_auth.login'))
+
+    data = {
+        'reservation_id': request.form.get('reservation_id'),
+        'description': request.form.get('description'),
+        'stars': request.form.get('stars'),
+    }
     success, response, status = create_review(token, data)
-    return jsonify(response), 201 if success else status
+
+    if success:
+        flash_message('Reseña publicada correctamente', category='success')
+    else:
+        flash_message(
+            response.get('message', 'Error'),
+            response.get('description', 'No se pudo publicar la reseña'),
+            'error')
+
+    return redirect(url_for('public_reviews.show'))
 
 
-@public_bp_reviews.route("/<int:review_id>", methods=["PUT"])
+@public_bp_reviews.post("/update/<int:review_id>")
 def update(review_id: int):
     token = request.cookies.get('session_token')
     if not token:
-        return jsonify({"mensaje": "No autorizado"}), 401
-    data = request.get_json()
+        return redirect(url_for('public_auth.login'))
+
+    data = {
+        'description': request.form.get('description'),
+        'stars': request.form.get('stars'),
+    }
     success, response, status = update_review(token, review_id, data)
-    return jsonify(response), 200 if success else status
+
+    if success:
+        flash_message('Reseña actualizada correctamente', category='success')
+    else:
+        flash_message(
+            response.get('message', 'Error'),
+            response.get('description', 'No se pudo actualizar la reseña'),
+            'error')
+
+    return redirect(url_for('public_reviews.show'))
 
 
-@public_bp_reviews.route("/<int:review_id>", methods=["DELETE"])
+@public_bp_reviews.post("/delete/<int:review_id>")
 def remove(review_id: int):
     token = request.cookies.get('session_token')
     if not token:
-        return jsonify({"mensaje": "No autorizado"}), 401
+        return redirect(url_for('public_auth.login'))
+
     success, response, status = delete_review(token, review_id)
-    return jsonify(response), 200 if success else status
+
+    if success:
+        flash_message('Reseña eliminada correctamente', category='success')
+    else:
+        flash_message(
+            response.get('message', 'Error'),
+            response.get('description', 'No se pudo eliminar la reseña'),
+            'error')
+
+    return redirect(url_for('public_reviews.show'))

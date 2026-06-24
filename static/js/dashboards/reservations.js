@@ -12,7 +12,6 @@ setTimeout(() => {
         createLine(canvasGraph1, dataAgrupada, 'fecha', 'cantidad', 'Reservas', 'Evolución de Reservas');
     });
 
-    // 3. RESTO DE GRÁFICOS: Se cargan en paralelo sin molestar a nadie
     createPie(document.getElementById('graph2'), data.by_status, 'estado', 'cantidad', 'Estados', 'Estados de Reservas');
     createHeatmap(
         document.getElementById('graph3'), 
