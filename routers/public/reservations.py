@@ -95,6 +95,7 @@ def confirmacion(id):
     GET /reservations/5/confirmacion
     """
     user = get_current_user()
+    token = request.cookies.get('session_token')
 
     if user is None:
         flash_message("No has iniciado sesión", "Por favor, inicie sesión para continuar.", "info")
@@ -110,7 +111,7 @@ def confirmacion(id):
     return render_template(
         'reservations/confirmacion.html',
         reserva=reserva,
-        user=get_current_user(),
+        user=user,
     )
 
 
