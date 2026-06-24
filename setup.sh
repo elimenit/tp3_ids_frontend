@@ -57,6 +57,7 @@ main() {
 
         echo "Creando archivo de las variables de entorno!!."
         generar_punto_env
+        activar_entorno_virtual
         echo "Intentando Correr Aplicacion..."
         correr_aplicacion
     elif [[ $option -eq 2 ]]; then
