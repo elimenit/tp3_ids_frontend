@@ -1,5 +1,6 @@
 from services.public.reviews import get_reviews, get_my_reservations, create_review, update_review, delete_review
-from utils.helpers import get_current_user, flash_message
+from utils.helpers import flash_message
+from services.public.users import get_current_user
 from flask import Blueprint, render_template, request, redirect, url_for
 
 public_bp_reviews = Blueprint('public_reviews', __name__)
@@ -36,6 +37,7 @@ def create():
         'description': request.form.get('description'),
         'stars': request.form.get('stars'),
     }
+    print(data)
     success, response, status = create_review(token, data)
 
     if success:

@@ -38,7 +38,7 @@
                 {% for cell in row.cells %}
                     {% set col_name = cols[loop.index0] %}
                     {% if col_name == 'Estado' %}
-                        {% if admin_user %}
+                        {% if admin_user or tables %}
                             <td><span class="badge {{ 'badge-available' if cell == 'active' else 'badge-unavailable' }}">{{ cell }}</span></td>
                         {% else %}
                             {% if cell in ['Confirmed', 'Arrived'] %}
@@ -61,6 +61,8 @@
                                 {{ 'Disponible' if cell else 'No disponible' }}
                             </span>
                         </td>
+                    {% elif col_name == 'Capacidad' and tables %}
+                        <td>{{ cell }} personas</td>
                     {% else %}
                         <td>{{ cell }}</td>
                     {% endif %}

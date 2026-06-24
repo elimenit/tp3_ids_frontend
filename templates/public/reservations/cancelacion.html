@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'partials/base.html' %}
 {% block title %} Cancelación {% endblock %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/reservations.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sections/reservations.css') }}">
 {% endblock %}
 
 {% block header %}
-{% include 'public/nav.html' %}
+{% include 'partials/nav.html' %}
 {% endblock %}
 
 {% block body %}
@@ -34,5 +34,5 @@
 {% endblock %}
 
 {% block footer %}
-{% include 'public/footer.html' %}
+{% include 'partials/footer.html' %}
 {% endblock %}

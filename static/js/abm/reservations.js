@@ -1,5 +1,7 @@
 import { setupCrudModal } from './crud.js'
 
+console.log("¡¡EL ARCHIVO DE RESERVACIONES CARGÓ CON ÉXITO!!");
+
 // {<input id>: <clave del dataset que da el valor de cada columna>}
 const fields = {
         table_display: 'table_number',
